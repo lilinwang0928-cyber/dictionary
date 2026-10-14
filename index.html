@@ -425,6 +425,53 @@ nav.tabs .cur{color:var(--field-ink);background:var(--field);border-radius:99px;
   .f-cam{grid-row:2;align-self:start;height:55%}
   .f-word{font-size:clamp(26px,5vw,44px)}
 }
+/* ===== v2 polish: grouped navigation, panel headers, takes ===== */
+:root{--g-p:#4E9E3F;--g-p-soft:#E1F1DC;--g-m:#3B7FBF;--g-m-soft:#E2EEF9;--g-f:#C1272D;--g-f-soft:#FCE9E9;--g-r:#9A7300;--g-r-soft:#FFF3CC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--g-p:#7CCB69;--g-p-soft:#1F3320;--g-m:#7DB4E8;--g-m-soft:#1C2C3D;--g-f:#F07373;--g-f-soft:#3A1F1F;--g-r:#E6C04A;--g-r-soft:#3A3114}}
+:root[data-theme="dark"]{--g-p:#7CCB69;--g-p-soft:#1F3320;--g-m:#7DB4E8;--g-m-soft:#1C2C3D;--g-f:#F07373;--g-f-soft:#3A1F1F;--g-r:#E6C04A;--g-r-soft:#3A3114}
+nav.tabs{gap:8px;flex-wrap:nowrap}
+@media (min-width:900px){nav.tabs{flex-wrap:wrap;overflow:visible;row-gap:8px}}
+.tg{display:inline-flex;align-items:center;gap:5px;padding:4px;border-radius:99px;background:var(--gs);flex:none}
+.tg>i{font-style:normal;font-size:12px;font-weight:800;color:var(--gc);padding:0 4px 0 8px;letter-spacing:.08em}
+.tg-p{--gc:var(--g-p);--gs:var(--g-p-soft)} .tg-m{--gc:var(--g-m);--gs:var(--g-m-soft)} .tg-f{--gc:var(--g-f);--gs:var(--g-f-soft)} .tg-r{--gc:var(--g-r);--gs:var(--g-r-soft)}
+nav.tabs .tg button{border:2px solid transparent;background:var(--surface);color:var(--ink);font-weight:700;padding:5px 12px;display:inline-flex;align-items:center;gap:6px}
+nav.tabs .tg button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--gs);color:var(--gc);font:800 12px var(--f-word)}
+nav.tabs .tg button:hover{border-color:var(--gc)}
+nav.tabs .tg button[aria-selected="true"]{background:var(--gc);border-color:var(--gc);color:var(--surface)}
+nav.tabs .tg button[aria-selected="true"] b{background:var(--surface);color:var(--gc)}
+.ph{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2px 12px;margin:0 0 16px;padding:0 0 12px;border-bottom:2px dashed var(--line)}
+.ph h2{margin:0;font-family:var(--f-display);font-size:clamp(22px,3vw,28px);color:var(--ink);grid-column:2}
+.ph p{margin:0;color:var(--muted);grid-column:2;max-width:70ch}
+.ph-n{grid-row:1/3;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;font:800 22px var(--f-word);background:var(--gc);color:var(--surface)}
+.ph:not(:has(.ph-n)) h2,.ph:not(:has(.ph-n)) p{grid-column:1/-1}
+.ph-p{--gc:var(--g-p)} .ph-m{--gc:var(--g-m)} .ph-f{--gc:var(--g-f)} .ph-r{--gc:var(--g-r)}
+.ph h2::after{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gc);margin-left:10px;vertical-align:middle}
+.rv-title{display:flex;align-items:center;gap:12px}
+.rv-title .ph-n{--gc:var(--g-p);width:40px;height:40px;font-size:20px}
+details.rules{padding:0}
+details.rules summary{cursor:pointer;padding:12px 18px;font-family:var(--f-display);font-size:18px;list-style:none;display:flex;align-items:center;gap:8px}
+details.rules summary::before{content:"▸";color:var(--g-m);font-weight:800;transition:transform .15s}
+details.rules[open] summary::before{transform:rotate(90deg)}
+details.rules ul{padding:0 18px 16px}
+.stage{background:linear-gradient(var(--surface),var(--surface)) padding-box}
+#drill .stage,#audio .stage{border-top:6px solid var(--g-p)}
+#audio .stage{border-top-color:var(--g-m)}
+.takes-card{grid-column:1/-1;margin-top:34px}
+.takes{display:grid;gap:14px}
+.take{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px 18px;align-items:start;border:2px solid var(--edge);border-radius:16px;padding:12px;background:var(--surface)}
+.take.latest{border-color:var(--g-f);box-shadow:0 0 0 3px var(--g-f-soft)}
+.take video{width:100%;max-height:52vh;border-radius:12px;background:#000}
+.take-meta{display:grid;gap:8px;align-content:start;min-width:0}
+.take-meta>b{font-family:var(--f-display);font-size:20px;display:flex;align-items:center;gap:8px}
+.tag-new{font:800 12px var(--f-body);background:var(--g-f);color:#fff;border-radius:99px;padding:1px 9px}
+.take-file{font:700 15px var(--f-body);overflow-wrap:anywhere;background:var(--bg);border-radius:8px;padding:4px 10px}
+.take-facts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ok-t{color:var(--green);font-weight:700}
+.take-acts{display:flex;flex-wrap:wrap;gap:8px}
+.takes-empty{display:grid;gap:4px;justify-items:center;text-align:center;border:2px dashed var(--line);border-radius:14px;padding:26px 16px;color:var(--muted)}
+.takes-empty b{font-family:var(--f-display);font-size:19px;color:var(--ink)}
+@media (max-width:720px){.take{grid-template-columns:1fr}}
+@media (max-width:560px){.tg>i{display:none}.tg{padding:3px}nav.tabs .tg button{padding:4px 9px}.ph-n{width:38px;height:38px;font-size:19px}}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -454,19 +501,28 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </header>
 
 <nav class="tabs" role="tablist" aria-label="學習單分頁">
-  <button role="tab" data-target="overview" aria-selected="true">試題總覽</button>
-  <button role="tab" data-target="drill" aria-selected="false">逐題練習</button>
-  <button role="tab" data-target="review" aria-selected="false">★ 重點複習</button>
-  <button role="tab" data-target="audio" aria-selected="false">模擬錄音</button>
-  <button role="tab" data-target="legend" aria-selected="false">積木對照</button>
-  <button role="tab" data-target="record" aria-selected="false">模擬錄影</button>
-  <button role="tab" data-target="formalTab" aria-selected="false">● 正式錄影</button>
-  <button role="tab" data-target="info" aria-selected="false">認證須知</button>
-  <button role="tab" data-target="extend" aria-selected="false">延伸學習</button>
+  <span class="tg tg-p"><i>練習</i>
+    <button role="tab" data-target="overview" aria-selected="true"><b>1</b>試題總覽</button>
+    <button role="tab" data-target="drill" aria-selected="false"><b>2</b>逐題練習</button>
+    <button role="tab" data-target="review" aria-selected="false"><b>3</b>★ 重點複習</button>
+  </span>
+  <span class="tg tg-m"><i>模擬</i>
+    <button role="tab" data-target="audio" aria-selected="false"><b>4</b>模擬錄音</button>
+    <button role="tab" data-target="record" aria-selected="false"><b>5</b>模擬錄影</button>
+  </span>
+  <span class="tg tg-f"><i>上傳</i>
+    <button role="tab" data-target="formalTab" aria-selected="false"><b>6</b>● 正式錄影</button>
+  </span>
+  <span class="tg tg-r"><i>資料</i>
+    <button role="tab" data-target="legend" aria-selected="false">積木對照</button>
+    <button role="tab" data-target="info" aria-selected="false">認證須知</button>
+    <button role="tab" data-target="extend" aria-selected="false">延伸學習</button>
+  </span>
   <span class="cur" id="curLv">字典初級</span>
 </nav>
 
 <section class="panel" id="overview">
+  <header class="ph ph-p"><span class="ph-n">1</span><h2>試題總覽</h2><p>先看官方試題卷，再逐張卡片聽真人音檔，標記「會了」「再練」或 ★ 重點。</p></header>
   <figure class="sheet" id="sheet">
     <figcaption class="sheet-head">
       <h2 class="sheet-title" id="sheetTitle">『字典初級』認證試題</h2>
@@ -497,6 +553,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </section>
 
 <section class="panel" id="drill" hidden>
+  <header class="ph ph-p"><span class="ph-n">2</span><h2>逐題練習</h2><p>先看注音積木自己唸出來，再翻開單字、聽音檔核對。</p></header>
   <div class="drill">
     <div class="stage" id="stage">
       <div class="qn" id="dNum">01</div>
@@ -540,7 +597,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 <section class="panel" id="review" hidden>
   <div class="rv-head">
     <div>
-      <h2 class="rv-title">★ 重點複習區</h2>
+      <h2 class="rv-title"><span class="ph-n">3</span>★ 重點複習區</h2>
       <p class="hint" style="margin:2px 0 0">在試題總覽、逐題練習或模擬錄音按 ☆，題目就會收進這裡。這區會一輪一輪重新洗牌，反覆練到熟為止。</p>
     </div>
     <span class="rv-count" id="rvCount">0 題</span>
@@ -586,6 +643,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </section>
 
 <section class="panel" id="audio" hidden>
+  <header class="ph ph-m"><span class="ph-n">4</span><h2>模擬錄音</h2><p>照認證節奏一次錄完，再逐題回聽，和標準音檔比一比。</p></header>
   <div class="aud">
     <div class="stage au-stage">
       <div class="qn" id="aNum">準備</div>
@@ -637,7 +695,8 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </section>
 
 <section class="panel" id="legend" hidden>
-  <p class="hint" style="margin-top:0">這一級用到的注音積木。藍色是子音積木、粉色是母音積木；上下疊在一起的是一組。點一塊，看看哪些題目用到它。</p>
+  <header class="ph ph-r"><h2>積木對照</h2><p>這一級用到的注音積木，點一塊看看哪些題目用到它。</p></header>
+  <p class="hint" style="margin-top:0">藍色是子音積木、粉色是母音積木；上下疊在一起的是一組。</p>
   <div class="lgsec"><h3>子音積木</h3><div class="legend" id="lgC"></div></div>
   <div class="lgsec"><h3>母音積木</h3><div class="legend" id="lgV"></div></div>
   <div class="hits" id="hits"><span class="hint">點選上面任一積木。</span></div>
@@ -645,15 +704,16 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </section>
 
 <section class="panel" id="record" hidden>
-  <div class="rules">
-    <h3>影片拍攝須知</h3>
+  <header class="ph ph-m"><span class="ph-n">5</span><h2>模擬錄影</h2><p>選背板、試鏡頭位置，用提詞機練習一鏡到底的節奏。這裡是練習，不是要上傳的正式影片。</p></header>
+  <details class="rules">
+    <summary>影片拍攝須知（口白、設備、一鏡到底、檔名）</summary>
     <ul>
       <li><span><em>影片錄製口白</em>先說 <span class="script" id="rScript">字典初級認證</span>，每題 <span class="script">題號，唸單字</span>（例：<span id="rEx">01, rank</span>）</span></li>
       <li><span><em>設備與場地</em>不需專業設備；影像聲音清晰流暢、能清楚辨認臉部嘴型，安靜、光線充足的室內最好。</span></li>
       <li><span><em>一鏡到底</em>不可剪輯或暫停，<b class="red">限時 5 分鐘內完成</b>。</span></li>
       <li><span><em>檔名</em><span id="rFile" class="script">姓名_字典初級認證</span><button class="linkish" data-go="info">設定姓名與看完整規範</button></span></li>
     </ul>
-  </div>
+  </details>
   <div class="bgpick">
     <h3>選擇錄影背板</h3>
     <div class="bgs" id="bgs" role="group" aria-label="錄影背板"></div>
@@ -704,6 +764,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   </div>
 </section>
 <section class="panel" id="formalTab" hidden>
+  <header class="ph ph-f"><span class="ph-n">6</span><h2>正式錄影</h2><p>錄要上傳的正式認證影片：只錄鏡頭與聲音，題目提示在預覽下方；錄完在下方回放、下載。</p></header>
   <div class="info-grid">
     <article class="ocard">
       <h2 class="otab">正式錄影區</h2>
@@ -732,6 +793,11 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
       </ol>
     </article>
   </div>
+  <article class="ocard takes-card">
+    <h2 class="otab">回放與下載</h2>
+    <div class="takes" id="takes"></div>
+    <p class="hint" style="margin:10px 0 0">影片只暫存在這個瀏覽器分頁，重新整理或關閉就會消失，請先下載，再上傳到個人 Google 雲端資料夾並設為共享。</p>
+  </article>
 </section>
 
 <div class="formal" id="formal" hidden role="dialog" aria-modal="true" aria-label="正式錄影區">
@@ -762,6 +828,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     <video id="fPlay" controls playsinline></video>
     <div class="row">
       <a class="btn primary" id="fDl" download="字典認證.mp4">下載影片檔</a>
+      <button class="btn" id="fToTakes">到回放與下載區</button>
       <button class="btn" id="fAgain">重錄</button>
       <button class="btn" id="fLeave">離開</button>
     </div>
@@ -770,6 +837,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </div>
 
 <section class="panel" id="info" hidden>
+  <header class="ph ph-r"><h2>認證須知</h2><p>官方認證流程、評分規範、收件時間與檔名格式。</p></header>
   <div class="info-grid">
     <article class="ocard flow-card">
       <h2 class="otab">認證流程</h2>
@@ -823,6 +891,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </section>
 
 <section class="panel" id="extend" hidden>
+  <header class="ph ph-r"><h2>延伸學習</h2><p>SoR 夥伴整理的自學頁面與工具。</p></header>
   <article class="ocard ext-card">
     <h2 class="otab">延伸學習</h2>
     <p>SoR 夥伴整理的自學頁面：三級認證題各有一份自學筆記，另附聲音積木電子白板，可以自己排積木拼音。頁面會在新分頁開啟。</p>
@@ -1590,8 +1659,10 @@ function fBegin(){
     try{ fRec=new MediaRecorder(fStream,mt?{mimeType:mt,videoBitsPerSecond:3000000}:{}); }catch(e){ $("fMsg").hidden=false; $("fMsg").textContent="這個瀏覽器不支援錄影，請改用 Chrome 或 Safari 最新版。"; $("fStart").hidden=false; return; }
     fChunks=[]; fRec.ondataavailable=e=>{if(e.data.size)fChunks.push(e.data);};
     const name=baseName();
+    const lvName=LV.name;
     fRec.onstop=()=>{
-      const type=fRec.mimeType||"video/webm", ext=type.includes("mp4")?"mp4":"webm", url=URL.createObjectURL(new Blob(fChunks,{type}));
+      const type=fRec.mimeType||"video/webm", ext=type.includes("mp4")?"mp4":"webm", blob=new Blob(fChunks,{type}), url=URL.createObjectURL(blob);
+      addTake({blob,url,name,ext,type,dur:(Date.now()-fT0)/1000,level:lvName,at:new Date()});
       $("fPlay").src=url; const a=$("fDl"); a.href=url; a.download=name+"."+ext;
       $("fInfo").textContent="檔名："+name+"."+ext+"　全長 "+mmss((Date.now()-fT0)/1000)+"。確認臉部嘴型、聲音清楚後再上傳到個人雲端資料夾。";
       $("fDone").hidden=false;
@@ -1618,9 +1689,42 @@ $("fNext").addEventListener("click",fAdvance);
 $("fStop").addEventListener("click",fEnd);
 $("fClose").addEventListener("click",()=>{ if(fRunning){ $("fStop").focus(); return; } fCloseAll(); });
 $("fLeave").addEventListener("click",fCloseAll);
+$("fDl").addEventListener("click",()=>{ if(TAKES[0]){TAKES[0].saved=true; renderTakes();} });
 $("fAgain").addEventListener("click",()=>{ $("fDone").hidden=true; fIdx=-1; fShow(); fBar(0); $("fStart").hidden=false; $("fClock").textContent="0:00 / 5:00"; $("fClock").classList.remove("over"); });
 $("fPrompt").addEventListener("click",()=>{ if(fRunning&&+$("fSec").value===0)fAdvance(); });
 document.addEventListener("keydown",e=>{ if($("formal").hidden)return; if(e.key===" "&&fRunning&&+$("fSec").value===0){e.preventDefault();fAdvance();} if(e.key==="Escape"&&!fRunning)fCloseAll(); });
+
+/* formal takes: playback + download list (kept in memory for this tab) */
+const TAKES=[];
+function fmtSize(b){return b>1048576?(b/1048576).toFixed(1)+" MB":Math.round(b/1024)+" KB";}
+function addTake(tk){ tk.id=TAKES.length+1; tk.saved=false; TAKES.unshift(tk); renderTakes(); }
+function renderTakes(){
+  const box=$("takes");
+  if(!TAKES.length){ box.innerHTML='<div class="takes-empty"><b>還沒有正式影片</b><span>按上方「進入正式錄影區」錄完後，每一次錄影都會出現在這裡：可以回放、比較，再挑一支下載。</span></div>'; return; }
+  const canShare=!!(navigator.canShare&&window.File);
+  box.innerHTML=TAKES.map((k,i)=>{
+    const over=k.dur>300, hh=String(k.at.getHours()).padStart(2,"0")+":"+String(k.at.getMinutes()).padStart(2,"0");
+    return '<div class="take'+(i===0?' latest':'')+'" data-id="'+k.id+'">'+
+      '<video src="'+k.url+'" controls playsinline preload="metadata"></video>'+
+      '<div class="take-meta"><b>第 '+k.id+' 次'+(i===0?' <span class="tag-new">最新</span>':'')+'</b>'+
+      '<span class="take-file">'+k.name+'.'+k.ext+'</span>'+
+      '<span class="take-facts"><span class="'+(over?'red':'')+'">⏱ '+mmss(k.dur)+(over?'（超過 5 分鐘）':'')+'</span><span>'+fmtSize(k.blob.size)+'</span><span>'+hh+' 錄製</span>'+(k.saved?'<span class="ok-t">✓ 已下載</span>':'')+'</span>'+
+      '<span class="take-acts"><a class="btn primary" href="'+k.url+'" download="'+k.name+'.'+k.ext+'" data-dl="'+k.id+'">⬇ 下載</a>'+
+      (canShare?'<button class="btn" data-share="'+k.id+'">分享／存到裝置</button>':'')+
+      '<button class="btn" data-del="'+k.id+'">刪除</button></span></div></div>';
+  }).join("");
+}
+$("takes").addEventListener("click",async e=>{
+  const dl=e.target.closest("[data-dl]"), sh=e.target.closest("[data-share]"), del=e.target.closest("[data-del]");
+  const find=id=>TAKES.find(k=>k.id===+id);
+  if(dl){ const k=find(dl.dataset.dl); k.saved=true; setTimeout(renderTakes,300); }
+  if(sh){ const k=find(sh.dataset.share); try{ const f=new File([k.blob],k.name+"."+k.ext,{type:k.type}); if(navigator.canShare({files:[f]})){ await navigator.share({files:[f],title:k.name}); k.saved=true; renderTakes(); } }catch(err){} }
+  if(del){ const k=find(del.dataset.del); if(!del.dataset.sure){ del.dataset.sure="1"; del.textContent="確定刪除？"; setTimeout(()=>{if(del.isConnected){del.textContent="刪除";delete del.dataset.sure;}},3000); return; }
+    URL.revokeObjectURL(k.url); TAKES.splice(TAKES.indexOf(k),1); renderTakes(); }
+});
+window.addEventListener("beforeunload",e=>{ if(TAKES.some(k=>!k.saved)){ e.preventDefault(); e.returnValue=""; } });
+$("fToTakes").addEventListener("click",()=>{ fCloseAll(); setTimeout(()=>document.querySelector(".takes-card").scrollIntoView({behavior:"smooth",block:"start"}),150); });
+renderTakes();
 
 /* switch level */
 function setLevel(key){
