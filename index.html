@@ -210,7 +210,8 @@ footer.foot a{color:var(--ink);font-weight:700;text-decoration:underline;text-de
 .studio{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
 @media (max-width:900px){.studio{grid-template-columns:1fr}}
 .screen{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:#000;max-width:100%}
-.screen canvas{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.screen canvas{display:block;width:auto;height:auto;max-width:100%;max-height:78vh}
+.screen{display:flex;justify-content:center}
 .screen .dot{position:absolute;top:12px;right:12px;background:#E5484D;color:#fff;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:700}
 .rules{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px}
 .rules h3{margin:0 0 8px;font-family:var(--f-display);font-size:20px}
@@ -262,6 +263,8 @@ nav.tabs{margin-top:10px;border-bottom:0;padding-block:10px;gap:8px}
 nav.tabs button{border:2px solid var(--edge);background:var(--surface);color:var(--ink);font-weight:700;padding:6px 14px}
 nav.tabs button[aria-selected="true"]{background:var(--edge);color:var(--surface)}
 nav.tabs button[data-target="info"],nav.tabs button[data-target="extend"]{background:var(--star-soft)}
+nav.tabs button[data-target="formalTab"]{color:#C1272D}
+nav.tabs button[data-target="formalTab"][aria-selected="true"]{background:#C1272D;border-color:#C1272D;color:#fff}
 nav.tabs button[data-target="info"][aria-selected="true"],nav.tabs button[data-target="extend"][aria-selected="true"]{background:var(--edge);color:var(--surface)}
 nav.tabs .cur{color:var(--field-ink);background:var(--field);border-radius:99px;padding:4px 12px;font-weight:700}
 
@@ -357,6 +360,7 @@ nav.tabs .cur{color:var(--field-ink);background:var(--field);border-radius:99px;
 .ext .btn{white-space:nowrap}
 @media (max-width:480px){.ext{grid-template-columns:auto minmax(0,1fr)}.ext .btn{grid-column:1/-1;justify-self:start}}
 /* phone */
+@media (max-width:900px){#record:not([hidden]){display:flex;flex-direction:column}#record .studio{order:-2}#record .bgpick{order:-1;margin-top:12px}#record .rules{order:1;margin-top:16px}}
 @media (max-width:560px){
   body{font-size:15px}
   header.top{padding:12px;border-radius:20px;margin-top:10px;gap:10px}
@@ -376,6 +380,50 @@ nav.tabs .cur{color:var(--field-ink);background:var(--field);border-radius:99px;
   .stage{padding:16px;min-height:0}
   .ocard{padding:28px 14px 14px}
   .otab{font-size:17px}
+}
+/* formal recording zone */
+.f-setup{display:grid;gap:10px;background:var(--bg);border-radius:12px;padding:12px;margin:6px 0 14px}
+.f-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.f-row>span{font-weight:700;font-size:14px;min-width:4.5em;color:var(--muted)}
+.f-row select{padding:6px 8px;border:2px solid var(--edge);border-radius:10px;background:var(--surface)}
+.f-enter{font-size:17px;padding:12px 20px}
+.formal{position:fixed;inset:0;z-index:60;background:#101512;color:#EEF4EF;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.f-top{display:flex;align-items:center;gap:12px;padding:8px 16px}
+.f-top b{font-family:var(--f-display);font-size:18px;margin-right:auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f-x{white-space:nowrap}
+.f-clock{font:800 17px var(--f-word);font-variant-numeric:tabular-nums}
+.f-clock.over{color:#FF7B7B}
+.f-x{border:1.5px solid #6E7D73;background:transparent;color:#EEF4EF;border-radius:99px;padding:4px 14px}
+.f-cam{position:relative;min-height:0;display:flex;justify-content:center;align-items:flex-start;padding:0 12px}
+.f-cam video{max-width:100%;max-height:100%;width:auto;height:100%;object-fit:contain;object-position:center top;transform:scaleX(-1);border-radius:16px;background:#000}
+.f-rec{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:#E5484D;color:#fff;font-weight:800;font-size:13px;border-radius:99px;padding:2px 12px;animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.35}}
+.f-count{position:absolute;inset:0;display:grid;place-items:center;font:800 min(30vw,180px) var(--f-word);color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.f-msg{position:absolute;inset:auto 0 12px;text-align:center;font-size:14px;color:#CFE0D4}
+.f-prompt{display:grid;justify-items:center;gap:6px;padding:12px 16px 4px;text-align:center}
+.f-num{font:800 clamp(18px,3.4vw,26px) var(--f-word);color:#8FD27D;letter-spacing:.06em}
+.f-word{font:800 clamp(34px,7vw,64px)/1.05 var(--f-word);overflow-wrap:anywhere;max-width:100%}
+.f-word.zh{font-family:var(--f-display);font-weight:700}
+.f-code{--blk:clamp(32px,6.5vw,58px);justify-content:center;gap:5px}
+.f-code .b{gap:5px}
+.f-bar{width:min(480px,90%);height:8px;border-radius:99px;background:#2A332D;overflow:hidden;margin-top:4px}
+.f-bar i{display:block;height:100%;width:100%;background:#8FD27D;transform-origin:left center}
+.f-ctrl{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:10px 16px 16px}
+.f-big{font-size:17px;padding:12px 22px}
+.formal .btn{border-color:#6E7D73}
+.formal .btn:not(.primary){background:#1E2722;color:#EEF4EF}
+.formal .btn.primary{background:#8FD27D;color:#14301B;border-color:#8FD27D}
+.f-done{position:absolute;inset:0;background:#101512;display:grid;align-content:start;justify-items:center;gap:12px;padding:20px 16px;overflow:auto}
+.f-done h3{margin:0;font-family:var(--f-display);font-size:22px}
+.f-done video{width:min(820px,100%);max-height:60vh;border-radius:14px;background:#000}
+.f-done .hint{color:#B9C9BE;text-align:center}
+/* landscape tablets/laptops: preview stays at the top edge (near the lens), prompt right below */
+@media (orientation:landscape) and (max-height:560px){
+  .formal{grid-template-rows:auto minmax(0,1fr) auto}
+  .f-prompt{grid-row:2;align-self:end}
+  .f-cam{grid-row:2;align-self:start;height:55%}
+  .f-word{font-size:clamp(26px,5vw,44px)}
 }
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
@@ -412,6 +460,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   <button role="tab" data-target="audio" aria-selected="false">模擬錄音</button>
   <button role="tab" data-target="legend" aria-selected="false">積木對照</button>
   <button role="tab" data-target="record" aria-selected="false">模擬錄影</button>
+  <button role="tab" data-target="formalTab" aria-selected="false">● 正式錄影</button>
   <button role="tab" data-target="info" aria-selected="false">認證須知</button>
   <button role="tab" data-target="extend" aria-selected="false">延伸學習</button>
   <span class="cur" id="curLv">字典初級</span>
@@ -654,6 +703,72 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     </div>
   </div>
 </section>
+<section class="panel" id="formalTab" hidden>
+  <div class="info-grid">
+    <article class="ocard">
+      <h2 class="otab">正式錄影區</h2>
+      <p>這裡錄的是要上傳的<b>正式認證影片</b>：只錄鏡頭畫面和聲音，不加背板、不加字幕。題目提示顯示在鏡頭預覽<b>下方</b>，只有你看得到，不會錄進影片。</p>
+      <div class="f-setup">
+        <div class="f-row"><span>級別</span><b id="fsLevel">字典初級認證・120 題</b></div>
+        <div class="f-row"><span>檔名</span><b id="fsFile">姓名_字典初級認證</b><button class="linkish" data-go="info">改姓名</button></div>
+        <label class="f-row" for="fSec"><span>每題秒數</span>
+          <select id="fSec"><option value="0">手動（點螢幕或按空白鍵換題）</option><option value="1.5">1.5 秒</option><option value="2" selected>2 秒</option><option value="2.5">2.5 秒</option><option value="3">3 秒</option></select>
+        </label>
+        <div class="timing" id="fEst"></div>
+        <label class="check" for="fShowW"><input type="checkbox" id="fShowW" checked> 提示顯示英文單字</label>
+        <label class="check" for="fShowC"><input type="checkbox" id="fShowC" checked> 提示顯示注音積木</label>
+      </div>
+      <button class="btn primary f-enter" id="fEnter">進入正式錄影區（全螢幕）</button>
+    </article>
+    <article class="ocard">
+      <h2 class="otab">擺放裝置</h2>
+      <ol class="rule-list">
+        <li><b>手機直拿</b>：前鏡頭在螢幕上方，預覽畫面就放在最上面；眼睛看預覽附近，臉和嘴型最清楚。</li>
+        <li><b>平板橫放</b>：多數平板的前鏡頭在長邊上方中央，預覽一樣在最上面、提示在下方。</li>
+        <li><b>筆電</b>：鏡頭在螢幕上緣；把視窗放大到全螢幕，臉保持在預覽框中央。</li>
+        <li>裝置放穩（用支架或書本墊高），鏡頭約與眼睛同高，距離一個手臂。</li>
+        <li>安靜、光線充足的室內，光源在臉的前方，不要背光。</li>
+        <li>一鏡到底、不可剪輯或暫停，<b class="red">限時 5 分鐘</b>。錄完可以先看一次再下載。</li>
+      </ol>
+    </article>
+  </div>
+</section>
+
+<div class="formal" id="formal" hidden role="dialog" aria-modal="true" aria-label="正式錄影區">
+  <div class="f-top">
+    <b id="fTitle">字典初級認證</b>
+    <span class="f-clock" id="fClock">0:00 / 5:00</span>
+    <button class="f-x" id="fClose">離開</button>
+  </div>
+  <div class="f-cam">
+    <video id="fPrev" muted playsinline autoplay></video>
+    <span class="f-rec" id="fRec" hidden>● REC</span>
+    <div class="f-count" id="fCount" hidden>3</div>
+    <div class="f-msg" id="fMsg">正在開啟鏡頭…</div>
+  </div>
+  <div class="f-prompt" id="fPrompt">
+    <div class="f-num" id="fNum">準備</div>
+    <div class="f-word" id="fWord">字典初級認證</div>
+    <div class="code f-code" id="fCode"></div>
+    <div class="f-bar" aria-hidden="true"><i id="fBar"></i></div>
+  </div>
+  <div class="f-ctrl">
+    <button class="btn primary f-big" id="fStart" disabled>● 開始正式錄影</button>
+    <button class="btn f-big" id="fNext" hidden>下一題 →</button>
+    <button class="btn f-big" id="fStop" hidden>■ 結束錄影</button>
+  </div>
+  <div class="f-done" id="fDone" hidden>
+    <h3>錄好了，先看一次</h3>
+    <video id="fPlay" controls playsinline></video>
+    <div class="row">
+      <a class="btn primary" id="fDl" download="字典認證.mp4">下載影片檔</a>
+      <button class="btn" id="fAgain">重錄</button>
+      <button class="btn" id="fLeave">離開</button>
+    </div>
+    <p class="hint" id="fInfo"></p>
+  </div>
+</div>
+
 <section class="panel" id="info" hidden>
   <div class="info-grid">
     <article class="ocard flow-card">
@@ -989,7 +1104,7 @@ const BG_LAYOUT=[
 function drawPlain(c,L,W2,H2){
   c.fillStyle=L.plain; c.fillRect(0,0,W2,H2);
   c.fillStyle=L.band; c.fillRect(0,H2*.93,W2,H2*.07);
-  c.fillStyle="#25402D"; c.font="700 "+Math.round(H2*.03)+"px \"LXGW WenKai TC\",\"Noto Sans TC\",sans-serif"; c.textAlign="right"; c.textBaseline="middle";
+  c.fillStyle="#25402D"; c.font="700 "+Math.round(Math.min(W2,H2)*.03)+"px \"LXGW WenKai TC\",\"Noto Sans TC\",sans-serif"; c.textAlign="right"; c.textBaseline="middle";
   c.fillText("蕭博士 SoR 美語・SoR 拼讀字典認證",W2*.97,H2*.965);
 }
 function plainThumb(L){const c=document.createElement("canvas");c.width=320;c.height=180;const x=c.getContext("2d");drawPlain(x,L,320,180);
@@ -1002,17 +1117,30 @@ $("bgs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)r
   document.querySelectorAll("#bgs button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
   try{localStorage.setItem(KEY+"-bg",BGI);}catch(e){} drawFrame();});
 
-const cv=$("cv"), ctx=cv.getContext("2d"), CW=cv.width, CH=cv.height;
+const cv=$("cv"), ctx=cv.getContext("2d"); let CW=cv.width, CH=cv.height, PORT=false;
+function setOrient(){
+  if(running||(vRec&&vRec.state==="recording"))return;
+  const p=window.matchMedia("(orientation: portrait)").matches&&innerWidth<1000;
+  if(p===PORT&&cv.width===(p?720:1280))return;
+  PORT=p; cv.width=p?720:1280; cv.height=p?1280:720; CW=cv.width; CH=cv.height;
+  try{drawFrame();}catch(e){}
+}
+window.addEventListener("resize",()=>{clearTimeout(setOrient._t);setOrient._t=setTimeout(setOrient,200);});
 const camV=document.createElement("video"); camV.muted=true; camV.playsInline=true;
 let running=false,pIdx=-1,timer=null,stream=null,vRec=null,vChunks=[],raf=null;
 
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
 function fitText(t,max,weight,family,start){let s=start;do{ctx.font=weight+" "+s+"px "+family;if(ctx.measureText(t).width<=max)break;s-=2;}while(s>14);return s;}
 function drawFrame(){
-  const L=BG_LAYOUT[BGI], bg=bgImgs[BGI];
+  const L0=BG_LAYOUT[BGI], bg=bgImgs[BGI];
+  /* portrait (phone held upright): camera window right under the top edge where the lens is, prompt below */
+  const L=PORT?Object.assign({},L0,{cam:[.05,.035,.90,.55],txt:[.05,.61,.90,.30]}):L0;
   ctx.clearRect(0,0,CW,CH);
   if(L.plain)drawPlain(ctx,L,CW,CH);
-  else if(bg&&bg.complete&&bg.naturalWidth)ctx.drawImage(bg,0,0,CW,CH); else {ctx.fillStyle="#F3F6F9";ctx.fillRect(0,0,CW,CH);}
+  else if(bg&&bg.complete&&bg.naturalWidth){
+    if(PORT){const s=Math.max(CW/bg.naturalWidth,CH/bg.naturalHeight),dw=bg.naturalWidth*s,dh=bg.naturalHeight*s;ctx.drawImage(bg,(CW-dw)*.15,(CH-dh)/2,dw,dh);}
+    else ctx.drawImage(bg,0,0,CW,CH);
+  } else {ctx.fillStyle="#F3F6F9";ctx.fillRect(0,0,CW,CH);}
   /* camera window */
   const [cx,cy,cw,ch]=[L.cam[0]*CW,L.cam[1]*CH,L.cam[2]*CW,L.cam[3]*CH];
   if(PM==="cut"&&stream&&segReady&&camV.readyState>=2&&camV.videoWidth){ drawCutout(cx,cy,cw,ch); }
@@ -1379,7 +1507,7 @@ let STU=""; try{STU=localStorage.getItem(KEY+"-name")||"";}catch(e){}
 function certTitle(){return "字典"+LV.name+"認證";}
 function baseName(){return (STU.trim()||"姓名")+"_"+certTitle();}
 function syncName(){ $("stuName").value=STU; $("fileName").textContent=baseName(); }
-$("stuName").addEventListener("input",e=>{STU=e.target.value.replace(/[\\/:*?"<>|]/g,"");try{localStorage.setItem(KEY+"-name",STU);}catch(_){} $("fileName").textContent=baseName(); $("rFile").textContent=baseName();});
+$("stuName").addEventListener("input",e=>{setTimeout(fSyncSetup,0);STU=e.target.value.replace(/[\\/:*?"<>|]/g,"");try{localStorage.setItem(KEY+"-name",STU);}catch(_){} $("fileName").textContent=baseName(); $("rFile").textContent=baseName();});
 $("copyName").addEventListener("click",()=>{const t=baseName();const done=()=>{$("copyName").textContent="已複製";setTimeout(()=>$("copyName").textContent="複製檔名",1500);};
   try{navigator.clipboard.writeText(t).then(done,()=>{selText();});}catch(e){selText();}
   function selText(){const r=document.createRange();r.selectNodeContents($("fileName"));const s=getSelection();s.removeAllRanges();s.addRange(r);}});
@@ -1418,6 +1546,82 @@ $("lb").addEventListener("click",e=>{if(e.target===$("lb")||e.target===$("lbScro
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("lb").hidden)closeLb();});
 applyFold();
 
+/* formal recording: camera + mic only, prompt shown below the preview (never recorded) */
+let fStream=null,fRec=null,fChunks=[],fRunning=false,fIdx=-1,fT=null,fT0=0,fClockT=null,fWake=null;
+function fEstimate(){ const s=+$("fSec").value; if(s>0)estimate($("fEst"),W.length,s,3); else {$("fEst").className="timing";$("fEst").textContent="手動換題：整段要在 5 分鐘內唸完。";} }
+function fSyncSetup(){ $("fsLevel").textContent="字典"+LV.name+"認證・"+W.length+" 題"; $("fsFile").textContent=baseName(); fEstimate(); }
+$("fSec").addEventListener("change",fEstimate);
+function fShow(){
+  const w=$("fWord"), c=$("fCode");
+  if(fIdx<0){ $("fNum").textContent=fRunning?"開場口白":"準備"; w.textContent="字典"+LV.name+"認證"; w.classList.add("zh"); c.innerHTML=""; return; }
+  if(fIdx>=W.length){ $("fNum").textContent="完成"; w.textContent="全部唸完了"; w.classList.add("zh"); c.innerHTML=""; return; }
+  const o=W[fIdx]; w.classList.remove("zh");
+  $("fNum").textContent="第 "+pad(o.n)+" 題 · "+(fIdx+1)+" / "+W.length;
+  w.textContent=$("fShowW").checked?o.w:""; c.innerHTML=$("fShowC").checked?codeHTML(o.k):"";
+}
+function fBar(secs){ const b=$("fBar"); b.style.transition="none"; b.style.transform="scaleX(1)"; void b.offsetWidth; if(secs>0){b.style.transition="transform "+secs+"s linear"; b.style.transform="scaleX(0)";} }
+function fTick(){ const s=(Date.now()-fT0)/1000, el=$("fClock"); el.textContent=mmss(s)+" / 5:00"; el.classList.toggle("over",s>300); }
+async function fOpen(){
+  $("formal").hidden=false; document.body.style.overflow="hidden"; $("fDone").hidden=true; $("fTitle").textContent="字典"+LV.name+"認證・"+baseName();
+  fIdx=-1; fRunning=false; fShow(); fBar(0); $("fClock").textContent="0:00 / 5:00"; $("fClock").classList.remove("over");
+  $("fStart").hidden=false; $("fStart").disabled=true; $("fNext").hidden=true; $("fStop").hidden=true;
+  try{ await $("formal").requestFullscreen?.(); }catch(e){}
+  try{ fWake=await navigator.wakeLock?.request("screen"); }catch(e){}
+  $("fMsg").hidden=false; $("fMsg").textContent="正在開啟鏡頭…";
+  try{
+    fStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:1280},height:{ideal:720}},audio:{echoCancellation:true,noiseSuppression:true}});
+    $("fPrev").srcObject=fStream; await $("fPrev").play().catch(()=>{});
+    $("fMsg").textContent="臉和嘴型在畫面中央、光線充足，就可以開始。"; $("fStart").disabled=false;
+  }catch(e){ $("fMsg").textContent=NOMEDIA; }
+}
+function fRelease(){ try{fStream&&fStream.getTracks().forEach(t=>t.stop());}catch(e){} fStream=null; $("fPrev").srcObject=null; try{fWake&&fWake.release();}catch(e){} fWake=null; }
+function fCloseAll(){
+  if(fRunning)return;
+  fRelease(); $("formal").hidden=true; document.body.style.overflow="";
+  try{ if(document.fullscreenElement)document.exitFullscreen(); }catch(e){}
+}
+function fCountdown(n,done){ const el=$("fCount"); el.hidden=false; el.textContent=n; if(n<=0){el.hidden=true;done();return;} setTimeout(()=>fCountdown(n-1,done),900); }
+function fBegin(){
+  if(!fStream)return;
+  $("fStart").hidden=true; $("fMsg").hidden=true;
+  fCountdown(3,()=>{
+    const types=["video/mp4;codecs=avc1,mp4a","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
+    const mt=types.find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||"";
+    try{ fRec=new MediaRecorder(fStream,mt?{mimeType:mt,videoBitsPerSecond:3000000}:{}); }catch(e){ $("fMsg").hidden=false; $("fMsg").textContent="這個瀏覽器不支援錄影，請改用 Chrome 或 Safari 最新版。"; $("fStart").hidden=false; return; }
+    fChunks=[]; fRec.ondataavailable=e=>{if(e.data.size)fChunks.push(e.data);};
+    const name=baseName();
+    fRec.onstop=()=>{
+      const type=fRec.mimeType||"video/webm", ext=type.includes("mp4")?"mp4":"webm", url=URL.createObjectURL(new Blob(fChunks,{type}));
+      $("fPlay").src=url; const a=$("fDl"); a.href=url; a.download=name+"."+ext;
+      $("fInfo").textContent="檔名："+name+"."+ext+"　全長 "+mmss((Date.now()-fT0)/1000)+"。確認臉部嘴型、聲音清楚後再上傳到個人雲端資料夾。";
+      $("fDone").hidden=false;
+    };
+    fRec.start(1000); fRunning=true; fT0=Date.now(); fTick(); clearInterval(fClockT); fClockT=setInterval(fTick,250);
+    $("fRec").hidden=false; $("fStop").hidden=false; $("fNext").hidden=+$("fSec").value>0;
+    fIdx=-1; fShow(); fBar(3); clearTimeout(fT); fT=setTimeout(fAdvance,3000);
+  });
+}
+function fAdvance(){
+  if(!fRunning)return; clearTimeout(fT);
+  fIdx++; fShow();
+  if(fIdx>=W.length){ fBar(0); setTimeout(fEnd,800); return; }
+  const s=+$("fSec").value; fBar(s); if(s>0)fT=setTimeout(fAdvance,s*1000);
+}
+function fEnd(){
+  if(!fRunning)return; fRunning=false; clearTimeout(fT); clearInterval(fClockT);
+  $("fRec").hidden=true; $("fNext").hidden=true; $("fStop").hidden=true;
+  try{ fRec&&fRec.state!=="inactive"&&fRec.stop(); }catch(e){}
+}
+$("fEnter").addEventListener("click",fOpen);
+$("fStart").addEventListener("click",fBegin);
+$("fNext").addEventListener("click",fAdvance);
+$("fStop").addEventListener("click",fEnd);
+$("fClose").addEventListener("click",()=>{ if(fRunning){ $("fStop").focus(); return; } fCloseAll(); });
+$("fLeave").addEventListener("click",fCloseAll);
+$("fAgain").addEventListener("click",()=>{ $("fDone").hidden=true; fIdx=-1; fShow(); fBar(0); $("fStart").hidden=false; $("fClock").textContent="0:00 / 5:00"; $("fClock").classList.remove("over"); });
+$("fPrompt").addEventListener("click",()=>{ if(fRunning&&+$("fSec").value===0)fAdvance(); });
+document.addEventListener("keydown",e=>{ if($("formal").hidden)return; if(e.key===" "&&fRunning&&+$("fSec").value===0){e.preventDefault();fAdvance();} if(e.key==="Escape"&&!fRunning)fCloseAll(); });
+
 /* switch level */
 function setLevel(key){
   const lv=LEVELS.find(l=>l.key===key)||LEVELS[0];
@@ -1428,9 +1632,10 @@ function setLevel(key){
   $("rScript").textContent="字典"+lv.name+"認證";
   $("rEx").textContent="01, "+W[0].w;
   $("pInfo").textContent="「開始一鏡到底」會同時開始錄影和提詞，跑完 "+W.length+" 題自動結束。";
-  renderLevels(); renderGrid(); buildRangeOptions(); buildOrder(); showCard(); renderLegend(); aReset(); rvSync(); syncName(); syncSheet(); $("rFile").textContent=baseName(); aEstimate(); pEstimate(); pIdx=-1; drawPrompt();
+  renderLevels(); renderGrid(); buildRangeOptions(); buildOrder(); showCard(); renderLegend(); aReset(); rvSync(); syncName(); syncSheet(); fSyncSetup(); $("rFile").textContent=baseName(); aEstimate(); pEstimate(); pIdx=-1; drawPrompt();
 }
 setLevel(startKey);
+setOrient();
 document.querySelectorAll("[data-pm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pm===PM?"true":"false"));
 </script>
 
