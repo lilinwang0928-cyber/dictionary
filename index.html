@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="SoR 拼讀字典「字典認證」互動學習單：初級、中級、高級認證題，注音積木、真人音檔、模擬錄音與錄影。">
 <title>字典認證練功房</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +34,9 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25); color-scheme:dark}
 
 *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
@@ -186,10 +195,15 @@ audio{width:100%}
 footer.foot{margin-top:40px;padding-block:18px 8px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;color:var(--muted);font-size:13.5px}
 footer.foot a{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;overflow-wrap:anywhere}
 /* recording studio */
+.mode-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:-4px 0 16px}
+.mode-label{font-weight:800;font-family:var(--f-display);font-size:17px}
+#segMsg.err{color:var(--red);font-weight:700}
+#segMsg.ok{color:var(--green);font-weight:700}
+
 .bgpick h3,.studio h3{font-family:var(--f-display)}
 .bgpick h3{margin:0 0 8px;font-size:20px}
-.bgs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
-@media (max-width:620px){.bgs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.bgs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:16px}
+@media (max-width:900px){.bgs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .bgs button{border:2px solid var(--line);border-radius:12px;padding:0;overflow:hidden;background:var(--surface);aspect-ratio:16/9;max-width:100%}
 .bgs button img{width:100%;height:100%;object-fit:cover;display:block}
 .bgs button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
@@ -342,6 +356,27 @@ nav.tabs .cur{color:var(--field-ink);background:var(--field);border-radius:99px;
 .ext-d{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
 .ext .btn{white-space:nowrap}
 @media (max-width:480px){.ext{grid-template-columns:auto minmax(0,1fr)}.ext .btn{grid-column:1/-1;justify-self:start}}
+/* phone */
+@media (max-width:560px){
+  body{font-size:15px}
+  header.top{padding:12px;border-radius:20px;margin-top:10px;gap:10px}
+  .hero{padding:10px 14px 14px;gap:6px}
+  .hero img{max-width:290px}
+  .hero .intro h1{font-size:22px}
+  .hero .intro p{font-size:14px}
+  .hero .facts span{font-size:12px;padding:1px 8px}
+  .levels{gap:8px}
+  nav.tabs{gap:6px;padding-block:8px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+  nav.tabs button{padding:5px 11px;font-size:14px;scroll-snap-align:start}
+  nav.tabs .cur{display:none}
+  .sheet{padding:10px}
+  .sheet-title{font-size:18px}
+  .sheet-head .row{margin-left:0!important}
+  .sheet-head .btn{padding:6px 10px;font-size:13.5px}
+  .stage{padding:16px;min-height:0}
+  .ocard{padding:28px 14px 14px}
+  .otab{font-size:17px}
+}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -349,6 +384,8 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
+</head>
+<body>
 <div class="wrap">
 <header class="top">
   <div class="hero">
@@ -571,6 +608,14 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   <div class="bgpick">
     <h3>選擇錄影背板</h3>
     <div class="bgs" id="bgs" role="group" aria-label="錄影背板"></div>
+    <div class="mode-row">
+      <span class="mode-label">人像模式</span>
+      <div class="seg" role="group" aria-label="人像模式">
+        <button data-pm="frame" aria-pressed="true">鏡頭框（原畫面）</button>
+        <button data-pm="cut" aria-pressed="false">去背（人像直接放在背板上）</button>
+      </div>
+      <span class="hint" id="segMsg">去背在你的裝置上即時運算，影像不會上傳；第一次使用需要下載約 6 MB 的模型。</span>
+    </div>
   </div>
   <div class="studio">
     <div class="screen">
@@ -585,7 +630,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
           <button class="btn primary" id="cRec" disabled>● 開始一鏡到底</button>
           <button class="btn" id="cStop" disabled>■ 結束錄影</button>
         </div>
-        <div class="status" id="camMsg">開啟鏡頭後，臉會出現在背板的鏡頭框裡；錄下來的影片就是預覽看到的整個畫面。</div>
+        <div class="status" id="camMsg">開啟鏡頭後，人像會出現在背板上；錄下來的影片就是預覽看到的整個畫面。</div>
         <div class="dl" id="dl" hidden>
           <video id="dlV" controls playsinline></video>
           <a class="btn" id="dlA" download="字典認證.webm">下載影片檔</a>
@@ -937,12 +982,22 @@ const BG_LAYOUT=[
   {name:"藍灰波浪",cam:[.045,.19,.50,.58],txt:[.575,.19,.38,.50],ink:"#3C4450"},
   {name:"粉紅小人",cam:[.04,.19,.47,.60],txt:[.535,.19,.23,.56],ink:"#3C4450"},
   {name:"相撲勿擾",cam:[.05,.30,.47,.58],txt:[.555,.30,.395,.385],ink:"#3C4450"},
-  {name:"小人牽手",cam:[.39,.05,.565,.63],txt:[.035,.05,.33,.38],ink:"#3C4450"}
+  {name:"小人牽手",cam:[.39,.05,.565,.63],txt:[.035,.05,.33,.38],ink:"#3C4450"},
+  {name:"素白",plain:"#F7F8F6",band:"#91C69D",cam:[.04,.07,.53,.80],txt:[.60,.18,.36,.58],ink:"#3C4450"},
+  {name:"薄荷綠",plain:"#DDEFE2",band:"#91C69D",cam:[.04,.07,.53,.80],txt:[.60,.18,.36,.58],ink:"#3C4450"}
 ];
-let BGI=0; try{const v=+localStorage.getItem(KEY+"-bg");if(v>=0&&v<4)BGI=v;}catch(e){}
+function drawPlain(c,L,W2,H2){
+  c.fillStyle=L.plain; c.fillRect(0,0,W2,H2);
+  c.fillStyle=L.band; c.fillRect(0,H2*.93,W2,H2*.07);
+  c.fillStyle="#25402D"; c.font="700 "+Math.round(H2*.03)+"px \"LXGW WenKai TC\",\"Noto Sans TC\",sans-serif"; c.textAlign="right"; c.textBaseline="middle";
+  c.fillText("蕭博士 SoR 美語・SoR 拼讀字典認證",W2*.97,H2*.965);
+}
+function plainThumb(L){const c=document.createElement("canvas");c.width=320;c.height=180;const x=c.getContext("2d");drawPlain(x,L,320,180);
+  x.fillStyle="rgba(20,25,32,.25)";x.fillRect(L.cam[0]*320,L.cam[1]*180,L.cam[2]*320,L.cam[3]*180);x.fillStyle="#fff";x.fillRect(L.txt[0]*320,L.txt[1]*180,L.txt[2]*320,L.txt[3]*180);return c.toDataURL();}
+let BGI=0; try{const v=+localStorage.getItem(KEY+"-bg");if(v>=0&&v<BG_LAYOUT.length)BGI=v;}catch(e){}
 const bgImgs=Object.keys(BGS).map(k=>{const im=new Image();im.src=BGS[k];return im;});
 const blockImgs={}; Object.keys(IMG).forEach(k=>{const im=new Image();im.src=IMG[k];blockImgs[k]=im;});
-$("bgs").innerHTML=BG_LAYOUT.map((b,i)=>'<button data-bg="'+i+'" aria-pressed="'+(i===BGI)+'" aria-label="背板 '+(i+1)+'：'+b.name+'"><img src="'+BGS[i]+'" alt=""></button>').join("");
+$("bgs").innerHTML=BG_LAYOUT.map((b,i)=>'<button data-bg="'+i+'" aria-pressed="'+(i===BGI)+'" aria-label="背板 '+(i+1)+'：'+b.name+'" title="'+b.name+'"><img src="'+(b.plain?plainThumb(b):BGS[i])+'" alt=""></button>').join("");
 $("bgs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;BGI=+b.dataset.bg;
   document.querySelectorAll("#bgs button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
   try{localStorage.setItem(KEY+"-bg",BGI);}catch(e){} drawFrame();});
@@ -956,9 +1011,12 @@ function fitText(t,max,weight,family,start){let s=start;do{ctx.font=weight+" "+s
 function drawFrame(){
   const L=BG_LAYOUT[BGI], bg=bgImgs[BGI];
   ctx.clearRect(0,0,CW,CH);
-  if(bg.complete&&bg.naturalWidth)ctx.drawImage(bg,0,0,CW,CH); else {ctx.fillStyle="#F3F6F9";ctx.fillRect(0,0,CW,CH);}
+  if(L.plain)drawPlain(ctx,L,CW,CH);
+  else if(bg&&bg.complete&&bg.naturalWidth)ctx.drawImage(bg,0,0,CW,CH); else {ctx.fillStyle="#F3F6F9";ctx.fillRect(0,0,CW,CH);}
   /* camera window */
   const [cx,cy,cw,ch]=[L.cam[0]*CW,L.cam[1]*CH,L.cam[2]*CW,L.cam[3]*CH];
+  if(PM==="cut"&&stream&&segReady&&camV.readyState>=2&&camV.videoWidth){ drawCutout(cx,cy,cw,ch); }
+  else {
   ctx.save(); rr(cx,cy,cw,ch,18); ctx.fillStyle="rgba(20,25,32,.82)"; ctx.fill(); ctx.clip();
   if(stream&&camV.readyState>=2&&camV.videoWidth){
     const vw=camV.videoWidth,vh=camV.videoHeight,s=Math.max(cw/vw,ch/vh),dw=vw*s,dh=vh*s;
@@ -969,6 +1027,7 @@ function drawFrame(){
   }
   ctx.restore();
   ctx.save(); rr(cx,cy,cw,ch,18); ctx.lineWidth=4; ctx.strokeStyle="rgba(255,255,255,.9)"; ctx.stroke(); ctx.restore();
+  }
   /* prompter card */
   const [tx,ty,tw,th]=[L.txt[0]*CW,L.txt[1]*CH,L.txt[2]*CW,L.txt[3]*CH];
   ctx.save(); rr(tx,ty,tw,th,18); ctx.fillStyle="rgba(255,255,255,.88)"; ctx.fill(); ctx.restore();
@@ -997,6 +1056,60 @@ function drawFrame(){
     chars.forEach(c=>{(MAP[c]||[]).forEach((id,j)=>{const im=blockImgs[id];if(im&&im.complete)ctx.drawImage(im,x,top+j*(b+gap),b,b);});x+=b+gap;});
   }
 }
+/* background removal: MediaPipe selfie segmentation (all files from jsDelivr), loaded only when 去背 is chosen */
+let PM="frame"; try{if(localStorage.getItem(KEY+"-pm")==="cut")PM="cut";}catch(e){}
+let segmenter=null,segReady=false,segLoading=null,lastSegT=-1,segBusy=false,personReady=false;
+const SSP="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation@0.1.1675465747/";
+const personCv=document.createElement("canvas"), personCtx=personCv.getContext("2d");
+function segStatus(t,cls){const el=$("segMsg");el.textContent=t;el.className="hint"+(cls?" "+cls:"");}
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.crossOrigin="anonymous";s.onload=ok;s.onerror=no;document.head.appendChild(s);});}
+function onSeg(r){
+  const img=r.image, m=r.segmentationMask; if(!img||!m)return;
+  const iw=img.width, ih=img.height, sc=Math.min(1,640/iw), pw=Math.round(iw*sc), ph=Math.round(ih*sc);
+  if(personCv.width!==pw||personCv.height!==ph){personCv.width=pw;personCv.height=ph;}
+  personCtx.save(); personCtx.clearRect(0,0,pw,ph);
+  personCtx.drawImage(m,0,0,pw,ph);
+  personCtx.globalCompositeOperation="source-in"; personCtx.drawImage(img,0,0,pw,ph);
+  personCtx.restore(); personReady=true;
+}
+async function loadSeg(){
+  if(segReady)return true; if(segLoading)return segLoading;
+  segStatus("正在下載去背模型（約 6 MB，只有第一次）…");
+  segLoading=(async()=>{
+    try{
+      if(!window.SelfieSegmentation)await loadScript(SSP+"selfie_segmentation.js");
+      segmenter=new window.SelfieSegmentation({locateFile:f=>SSP+f});
+      segmenter.setOptions({modelSelection:1,selfieMode:false});
+      segmenter.onResults(onSeg);
+      await segmenter.initialize();
+      segReady=true; segStatus("去背已啟用：人像直接放在背板上。背後是單純牆面、光線充足時效果最好。","ok"); return true;
+    }catch(e){
+      segLoading=null; segStatus("去背模型載入失敗（需要連上網路，或此檢視視窗不允許）。先用鏡頭框模式錄影。","err"); return false;
+    }
+  })();
+  return segLoading;
+}
+function updateMask(){
+  if(segBusy||camV.currentTime===lastSegT)return; lastSegT=camV.currentTime; segBusy=true;
+  segmenter.send({image:camV}).then(()=>{segBusy=false;},()=>{segBusy=false;});
+}
+function drawCutout(cx,cy,cw,ch){
+  updateMask();
+  if(!personReady)return;
+  const pw=personCv.width, ph=personCv.height, s=Math.max(cw/pw,ch/ph), dw=pw*s, dh=ph*s;
+  ctx.save(); ctx.beginPath(); ctx.rect(cx,cy,cw,ch); ctx.clip();
+  ctx.translate(cx+cw,cy); ctx.scale(-1,1); ctx.drawImage(personCv,(cw-dw)/2,ch-dh,dw,dh);
+  ctx.restore();
+}
+function setPM(m){
+  PM=m; try{localStorage.setItem(KEY+"-pm",m);}catch(e){}
+  document.querySelectorAll("[data-pm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pm===m?"true":"false"));
+  if(m==="cut"){ if(stream)loadSeg(); else segStatus("開啟鏡頭後就會套用去背。"); }
+  else segStatus("鏡頭框模式：人像在圓角框內，背板其他部分保持乾淨。");
+  if(!raf)drawFrame();
+}
+document.querySelectorAll("[data-pm]").forEach(b=>b.addEventListener("click",()=>setPM(b.dataset.pm)));
+
 function loop(){drawFrame(); raf=requestAnimationFrame(loop);}
 function startLoop(){if(!raf)loop();}
 function stopLoop(){if(raf){cancelAnimationFrame(raf);raf=null;}}
@@ -1028,7 +1141,7 @@ $("cOn").addEventListener("click",async()=>{
     $("cOn").textContent="開啟鏡頭";$("cRec").disabled=true;return;}
   try{
     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:1280},height:{ideal:720}},audio:true});
-    camV.srcObject=stream; await camV.play(); startLoop();
+    camV.srcObject=stream; await camV.play(); startLoop(); if(PM==="cut")loadSeg();
     $("cOn").textContent="關閉鏡頭"; $("cRec").disabled=false;
     $("camMsg").textContent="確認臉和嘴型清楚、光線充足，再按「開始一鏡到底」。";
   }catch(e){$("camMsg").textContent=NOMEDIA+" 背板和提詞仍可在預覽中練習。";}
@@ -1318,4 +1431,8 @@ function setLevel(key){
   renderLevels(); renderGrid(); buildRangeOptions(); buildOrder(); showCard(); renderLegend(); aReset(); rvSync(); syncName(); syncSheet(); $("rFile").textContent=baseName(); aEstimate(); pEstimate(); pIdx=-1; drawPrompt();
 }
 setLevel(startKey);
+document.querySelectorAll("[data-pm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pm===PM?"true":"false"));
 </script>
+
+</body>
+</html>
