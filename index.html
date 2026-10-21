@@ -545,6 +545,31 @@ nav.tabs .nav-end .cur{margin-left:0}
 .box h3{display:flex;align-items:center;gap:8px}
 .box h3::before{content:"";width:6px;height:18px;border-radius:3px;background:var(--green)}
 @media (max-width:560px){.refresh{padding:4px 10px;font-size:13px}.nav-end .cur{display:none}.steps-mini li{font-size:12px}}
+/* ===== v5: phone-friendly mock studio ===== */
+.screen{background:var(--bg);border:0;box-shadow:none}
+.screen .cvw canvas{border:2px solid var(--edge);border-radius:14px}
+.sbar{display:none}
+.full-go{display:none;margin:10px auto 0}
+@media (max-width:900px),(pointer:coarse){.full-go{display:block}}
+@media (max-height:520px) and (orientation:landscape){nav.tabs{position:static}}
+#record.sfull .studio{position:fixed;inset:0;z-index:60;background:#101512;margin:0;display:block;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+#record.sfull .studio>.side,#record.sfull .full-go{display:none}
+#record.sfull .screen{position:absolute;inset:0;display:grid;grid-template-rows:minmax(0,1fr) auto;background:#101512;border-radius:0}
+#record.sfull .cvw{align-self:center;justify-self:center;max-width:100%;max-height:100%;display:flex;justify-content:center;align-items:center;padding:8px}
+#record.sfull .cvw canvas{max-width:calc(100vw - 16px);max-height:calc(100dvh - 96px);width:auto;height:auto;border:0;border-radius:12px}
+#record.sfull .sbar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;padding:8px 10px 12px}
+#record.sfull .screen .dot{top:calc(12px + env(safe-area-inset-top,0px))}
+.sb{border:1.5px solid #6E7D73;background:#1E2722;color:#EEF4EF;border-radius:99px;padding:9px 16px;font-weight:700;font-size:15px}
+.sb.rec{background:#E5484D;border-color:#E5484D;color:#fff}
+.sb.ghost{background:transparent}
+.sb:disabled{opacity:.4}
+.sb-clock{font:800 15px var(--f-word);color:#CFE0D4;font-variant-numeric:tabular-nums;min-width:5.5em;text-align:center}
+@media (orientation:landscape) and (max-height:560px){
+  #record.sfull .screen{grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr) auto}
+  #record.sfull .cvw canvas{max-height:calc(100dvh - 16px);max-width:calc(100vw - 150px)}
+  #record.sfull .sbar{flex-direction:column;flex-wrap:nowrap;justify-content:center;padding:8px;width:140px}
+  #record.sfull .sb{width:100%;padding:8px 10px;font-size:14px}
+}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -810,7 +835,16 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
       <div class="cvw"><canvas id="cv" width="1280" height="720" aria-label="錄影畫面預覽：背板、鏡頭與題目"></canvas><div class="fguide" id="cGuideBox"><svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><ellipse cx="50" cy="44" rx="21" ry="29" class="g-face"/><rect x="40" y="58" width="20" height="9" rx="4.5" class="g-mouth"/></svg><span class="g-tip">臉放進框內・嘴巴對準小框</span></div></div>
       <span class="dot" id="recDot" hidden>● 錄影中</span>
       <div class="cd-ov" id="cCount" hidden></div>
+      <div class="sbar" id="sbar">
+        <span class="sb-clock" id="sbClock">準備</span>
+        <button class="sb" id="sbCam">開鏡頭</button>
+        <button class="sb rec" id="sbRec">● 錄影</button>
+        <button class="sb" id="sbNext">下一題</button>
+        <button class="sb" id="sbStop">■ 結束</button>
+        <button class="sb ghost" id="sbExit">離開全螢幕</button>
+      </div>
     </div>
+    <button class="btn full-go" id="fullGo">⛶ 全螢幕練習（手機、平板建議）</button>
     <div class="side">
       <div class="box">
         <h3>鏡頭與錄影</h3>
@@ -1322,7 +1356,7 @@ function unlockOrientation(){ try{ screen.orientation&&screen.orientation.unlock
 const cv=$("cv"), ctx=cv.getContext("2d"); let CW=cv.width, CH=cv.height, PORT=false;
 function setOrient(){
   if(running||(vRec&&vRec.state==="recording"))return;
-  const p=isPortrait()&&(innerWidth<1100||window.matchMedia("(pointer:coarse)").matches);
+  const p=isPortrait()&&(innerWidth<1100||window.matchMedia("(pointer:coarse)").matches||$("record").classList.contains("sfull"));
   if(p===PORT&&cv.width===(p?720:1280))return;
   PORT=p; cv.width=p?720:1280; cv.height=p?1280:720; CW=cv.width; CH=cv.height;
   if(stream)refitCamera(stream);
@@ -1498,6 +1532,7 @@ function mockRecStart(){
       const type=vRec.mimeType||"video/webm", url=URL.createObjectURL(new Blob(vChunks,{type}));
       $("dlV").src=url; const a=$("dlA"); a.href=url; a.download=(STU.trim()||"姓名")+"_字典"+lvName+"認證."+(type.includes("mp4")?"mp4":"webm");
       $("dl").hidden=false; $("recDot").hidden=true; $("cRec").disabled=false; $("cStop").disabled=true; unlockOrientation();
+      if($("record").classList.contains("sfull")){ exitStudio(); setTimeout(()=>$("dl").scrollIntoView({behavior:"smooth",block:"center"}),200); }
     };
     vRec.start(1000); $("recDot").hidden=false; $("cRec").disabled=true; $("cStop").disabled=false;
     lockOrientation(); startPrompt();
@@ -1988,6 +2023,33 @@ $("refresh").addEventListener("click",()=>{
   window.removeEventListener("beforeunload",window.__bu||(()=>{}));
   window.__skipBU=true; location.reload();
 });
+
+/* full-screen mock studio for phones/tablets: preview fills the screen, compact control bar */
+function sSync(){
+  const on=!!stream, rec=!!(vRec&&vRec.state==="recording");
+  $("sbCam").textContent=on?"關鏡頭":"開鏡頭"; $("sbCam").disabled=rec;
+  $("sbRec").disabled=!on||rec||!$("cCount").hidden; $("sbStop").disabled=!rec&&!running; $("sbNext").disabled=!running;
+  $("sbClock").textContent=rec?(mmss((Date.now()-pT0)/1000)+" / 5:00"):(running?"提詞中":"準備");
+}
+setInterval(()=>{ if($("record").classList.contains("sfull"))sSync(); },300);
+async function enterStudio(){
+  $("record").classList.add("sfull"); document.body.style.overflow="hidden";
+  try{ await document.documentElement.requestFullscreen?.(); }catch(e){}
+  setOrient(); if(!stream)$("cOn").click(); sSync();
+}
+function exitStudio(){
+  if(vRec&&vRec.state==="recording")return;
+  $("record").classList.remove("sfull"); document.body.style.overflow="";
+  try{ if(document.fullscreenElement)document.exitFullscreen(); }catch(e){}
+  setOrient();
+}
+$("fullGo").addEventListener("click",enterStudio);
+$("sbCam").addEventListener("click",()=>$("cOn").click());
+$("sbRec").addEventListener("click",()=>$("cRec").click());
+$("sbNext").addEventListener("click",()=>$("pNext").click());
+$("sbStop").addEventListener("click",()=>{ $("cStop").click(); });
+$("sbExit").addEventListener("click",exitStudio);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&$("record").classList.contains("sfull"))exitStudio(); });
 
 /* switch level */
 function setLevel(key){
