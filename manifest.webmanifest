@@ -1,0 +1,30 @@
+{
+ "name": "字典認證練功房",
+ "short_name": "字典認證",
+ "description": "SoR 拼讀字典字典認證互動學習單：初級、中級、高級，SoR專利注音積木、真人音檔、練習日程、模擬錄音錄影與正式錄影。",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#E8F3EB",
+ "theme_color": "#91C69D",
+ "lang": "zh-Hant",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
