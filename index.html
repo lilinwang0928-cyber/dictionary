@@ -570,6 +570,22 @@ nav.tabs .nav-end .cur{margin-left:0}
   #record.sfull .sbar{flex-direction:column;flex-wrap:nowrap;justify-content:center;padding:8px;width:140px}
   #record.sfull .sb{width:100%;padding:8px 10px;font-size:14px}
 }
+/* ===== v6: read-all + backup ===== */
+.ra{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ra-gap{display:inline-flex;align-items:center;gap:4px;font-size:13.5px;color:var(--muted)}
+.ra-gap select{padding:5px 8px;border:2px solid var(--edge);border-radius:10px;background:var(--surface)}
+.ra-prog{font:800 14px var(--f-word);color:var(--green);font-variant-numeric:tabular-nums}
+#raGo.on{background:var(--red);border-color:var(--red);color:#fff}
+.card.playing{outline:4px solid var(--g-p);outline-offset:2px;transform:scale(1.03);z-index:1}
+.bk-card{margin-top:34px}
+.bk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.bk-col{display:grid;gap:10px;align-content:start;background:var(--bg);border-radius:14px;padding:14px}
+.bk-col h3{margin:0;font-family:var(--f-display);font-size:18px}
+.bk-text{width:100%;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--line);border-radius:10px;padding:8px;background:var(--surface);color:var(--ink);resize:vertical;min-width:0}
+.bk-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.bk-sum div{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:6px 8px;display:grid;font-size:13px;color:var(--muted)}
+.bk-sum b{font:800 15px var(--f-body);color:var(--ink)}
+#bkMsg.ok{color:var(--green);font-weight:700} #bkMsg.err{color:var(--red);font-weight:700}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -646,7 +662,14 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
       <button data-filter="1" aria-pressed="false">已會</button>
       <button data-filter="star" aria-pressed="false">★ 重點</button>
     </div>
-    <span class="hint">點卡片：聽發音（遮住時先翻開）。</span>
+    <span class="ra">
+      <button class="btn primary" id="raGo">▶ 一次唸完所有單字</button>
+      <label class="ra-gap" for="raGap">間隔
+        <select id="raGap"><option value="0.4">短</option><option value="0.9" selected>中</option><option value="1.6">長（可跟讀）</option></select>
+      </label>
+      <span class="ra-prog" id="raProg"></span>
+    </span>
+    <span class="hint">點卡片：聽單字。「一次唸完」會依照目前篩選，從第一題唸到最後一題。</span>
   </div>
   <div class="grid" id="grid"></div>
 </section>
@@ -739,6 +762,35 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
       </div>
     </aside>
   </div>
+  <article class="ocard bk-card">
+    <h2 class="otab">備份・匯出・匯入</h2>
+    <p>把三個級別的 ★ 重點和「會了／再練」紀錄存成備份，換手機、換電腦或清除瀏覽器後，再匯入就能接著練。</p>
+    <div class="bk-grid">
+      <div class="bk-col">
+        <h3>匯出備份</h3>
+        <div class="bk-sum" id="bkSum"></div>
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn primary" id="bkFile">⬇ 下載備份檔（.json）</button>
+          <button class="btn" id="bkCopy">複製備份碼</button>
+        </div>
+        <textarea id="bkOut" class="bk-text" readonly rows="3" aria-label="備份碼"></textarea>
+      </div>
+      <div class="bk-col">
+        <h3>匯入備份</h3>
+        <div class="row" style="justify-content:flex-start">
+          <label class="btn" for="bkPick">📂 選擇備份檔</label>
+          <input type="file" id="bkPick" accept=".json,application/json,text/plain" hidden>
+        </div>
+        <textarea id="bkIn" class="bk-text" rows="3" placeholder="或把備份碼貼在這裡"></textarea>
+        <div class="seg" role="group" aria-label="匯入方式">
+          <button data-bkmode="merge" aria-pressed="true">合併（保留現有紀錄）</button>
+          <button data-bkmode="replace" aria-pressed="false">覆蓋（以備份為準）</button>
+        </div>
+        <div class="row" style="justify-content:flex-start"><button class="btn primary" id="bkGo">匯入</button></div>
+        <div class="status" id="bkMsg"></div>
+      </div>
+    </div>
+  </article>
 </section>
 
 <section class="panel" id="audio" hidden>
@@ -1682,7 +1734,7 @@ function aReset(){
 /* stars: per level, separate from 會了/再練 */
 let STAR={l1:{},l2:{},l3:{}};
 try{const s=JSON.parse(localStorage.getItem(KEY+"-star")||"null"); if(s)STAR=Object.assign(STAR,s);}catch(e){}
-function saveStar(){try{localStorage.setItem(KEY+"-star",JSON.stringify(STAR));}catch(e){}}
+function saveStar(){try{localStorage.setItem(KEY+"-star",JSON.stringify(STAR));}catch(e){} if(typeof bkRender==='function')try{bkRender();}catch(e){}}
 let SS=STAR.l1;
 function isStar(n){return !!SS[n];}
 function toggleStar(n){ if(SS[n])delete SS[n]; else SS[n]=1; saveStar(); afterStar(n); }
@@ -2051,6 +2103,78 @@ $("sbStop").addEventListener("click",()=>{ $("cStop").click(); });
 $("sbExit").addEventListener("click",exitStudio);
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&$("record").classList.contains("sfull"))exitStudio(); });
 
+/* ===== read-all: play every visible word in order ===== */
+let RA=null;
+function raStop(){
+  if(!RA)return; clearTimeout(RA.t); try{RA.a&&RA.a.pause();}catch(e){} try{speechSynthesis.cancel();}catch(e){}
+  document.querySelectorAll(".card.playing").forEach(c=>c.classList.remove("playing"));
+  RA=null; $("raGo").textContent="▶ 一次唸完所有單字"; $("raGo").classList.remove("on"); $("raProg").textContent="";
+}
+function raStep(){
+  if(!RA)return;
+  document.querySelectorAll(".card.playing").forEach(c=>c.classList.remove("playing"));
+  if(RA.i>=RA.list.length){ const n=RA.list.length; raStop(); $("raProg").textContent="唸完 "+n+" 題"; return; }
+  const n=RA.list[RA.i], o=W[n-1], card=grid.querySelector('.card[data-n="'+n+'"]');
+  if(card){ card.classList.add("playing"); card.scrollIntoView({block:"center",behavior:"smooth"}); }
+  $("raProg").textContent=(RA.i+1)+" / "+RA.list.length;
+  const gap=+$("raGap").value*1000, next=()=>{ if(!RA)return; RA.i++; RA.t=setTimeout(raStep,gap); };
+  const src=AUDIO[LV.key]&&AUDIO[LV.key][n];
+  if(src){ const a=new Audio(src); RA.a=a; a.onended=next; a.onerror=next; a.play().catch(next); }
+  else { ttsSpeak(o.w); RA.t=setTimeout(next,1200); }
+}
+$("raGo").addEventListener("click",()=>{
+  if(RA){ raStop(); return; }
+  const list=[...grid.querySelectorAll(".card")].filter(c=>!c.hidden).map(c=>+c.dataset.n);
+  if(!list.length){ $("raProg").textContent="目前篩選沒有題目"; return; }
+  try{ clipPlayer&&clipPlayer.pause(); }catch(e){}
+  RA={list,i:0,t:null,a:null}; $("raGo").textContent="⏹ 停止朗讀"; $("raGo").classList.add("on"); raStep();
+});
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(b.dataset.target!=="overview")raStop(); }));
+
+/* ===== backup / restore of stars and progress ===== */
+let BKMODE="merge";
+function bkData(){ return {app:"sor-dict-cert",v:1,at:new Date().toISOString(),name:STU||"",star:STAR,progress:ST}; }
+function bkCounts(d){ return LEVELS.map(l=>{ const s=(d.star&&d.star[l.key])||{}, p=(d.progress&&d.progress[l.key])||{}; const ok=Object.values(p).filter(v=>v===1).length, ag=Object.values(p).filter(v=>v===2).length; return {name:l.name,star:Object.keys(s).length,ok,ag}; }); }
+function bkRender(){
+  const d=bkData();
+  $("bkSum").innerHTML=bkCounts(d).map(c=>'<div><span>'+c.name+'</span><b>★ '+c.star+'</b><span>會了 '+c.ok+'・再練 '+c.ag+'</span></div>').join("");
+  $("bkOut").value=JSON.stringify(d);
+}
+function bkName(){ const d=new Date(), p=x=>String(x).padStart(2,"0"); return (STU.trim()?STU.trim()+"_":"")+"字典認證備份_"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+".json"; }
+$("bkFile").addEventListener("click",()=>{
+  bkRender();
+  try{ const url=URL.createObjectURL(new Blob([$("bkOut").value],{type:"application/json"})); const a=document.createElement("a"); a.href=url; a.download=bkName(); document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),4000);
+    $("bkMsg").className="status ok"; $("bkMsg").textContent="已下載備份檔："+bkName()+"（若沒有下載，請改用「複製備份碼」）"; }
+  catch(e){ $("bkMsg").className="status err"; $("bkMsg").textContent="這個視窗不能下載檔案，請改用「複製備份碼」。"; }
+});
+$("bkCopy").addEventListener("click",()=>{
+  bkRender(); const t=$("bkOut").value, b=$("bkCopy");
+  const ok=()=>{ b.textContent="已複製"; setTimeout(()=>b.textContent="複製備份碼",1500); };
+  const sel=()=>{ $("bkOut").focus(); $("bkOut").select(); b.textContent="已選取，請按複製"; setTimeout(()=>b.textContent="複製備份碼",2500); };
+  try{ navigator.clipboard.writeText(t).then(ok,sel); }catch(e){ sel(); }
+});
+$("bkPick").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f)return;
+  const r=new FileReader(); r.onload=()=>{ $("bkIn").value=String(r.result||""); $("bkMsg").className="status"; $("bkMsg").textContent="已讀取「"+f.name+"」，按「匯入」完成。"; }; r.readAsText(f); e.target.value="";
+});
+document.querySelectorAll("[data-bkmode]").forEach(b=>b.addEventListener("click",()=>{ BKMODE=b.dataset.bkmode; document.querySelectorAll("[data-bkmode]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false")); }));
+function bkClean(obj,valid){ const out={}; if(obj&&typeof obj==="object")for(const k in obj){ const n=+k, v=obj[k]; if(n>=1&&n<=200&&valid(v))out[n]=v; } return out; }
+$("bkGo").addEventListener("click",()=>{
+  const msg=$("bkMsg"); let d;
+  try{ d=JSON.parse($("bkIn").value.trim()); }catch(e){ msg.className="status err"; msg.textContent="看不懂這份備份碼，請確認是從這個練功房匯出的完整內容。"; return; }
+  if(!d||d.app!=="sor-dict-cert"||!d.star||!d.progress){ msg.className="status err"; msg.textContent="這不是字典認證練功房的備份。"; return; }
+  LEVELS.forEach(l=>{
+    const s=bkClean(d.star[l.key],v=>v===1), p=bkClean(d.progress[l.key],v=>v===1||v===2);
+    if(BKMODE==="replace"){ STAR[l.key]=s; ST[l.key]=p; }
+    else { Object.assign(STAR[l.key],s); for(const k in p){ if(ST[l.key][k]!==1)ST[l.key][k]=p[k]; } }
+  });
+  saveStar(); save();
+  if(d.name&&!STU){ STU=String(d.name).slice(0,30); try{localStorage.setItem(KEY+"-name",STU);}catch(e){} }
+  const keep=LV.key; setLevel(keep); bkRender();
+  const c=bkCounts(bkData()).map(x=>x.name+" ★"+x.star).join("、");
+  msg.className="status ok"; msg.textContent="匯入完成（"+(BKMODE==="replace"?"覆蓋":"合併")+"）："+c+"。"; $("bkIn").value="";
+});
+
 /* switch level */
 function setLevel(key){
   const lv=LEVELS.find(l=>l.key===key)||LEVELS[0];
@@ -2061,7 +2185,7 @@ function setLevel(key){
   $("rScript").textContent="字典"+lv.name+"認證";
   $("rEx").textContent="01, "+W[0].w;
   $("pInfo").textContent="「開始一鏡到底」會同時開始錄影和提詞，跑完 "+W.length+" 題自動結束。";
-  renderLevels(); renderGrid(); buildRangeOptions(); buildOrder(); showCard(); renderLegend(); aReset(); rvSync(); syncName(); syncSheet(); fSyncSetup(); $("rFile").textContent=baseName(); aEstimate(); pEstimate(); pIdx=-1; drawPrompt();
+  renderLevels(); renderGrid(); buildRangeOptions(); buildOrder(); showCard(); renderLegend(); aReset(); rvSync(); syncName(); syncSheet(); fSyncSetup(); if(typeof raStop==='function')raStop(); if(typeof bkRender==='function')bkRender(); $("rFile").textContent=baseName(); aEstimate(); pEstimate(); pIdx=-1; drawPrompt();
 }
 setLevel(startKey);
 syncShared();
