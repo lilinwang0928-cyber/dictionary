@@ -586,6 +586,16 @@ nav.tabs .nav-end .cur{margin-left:0}
 .bk-sum div{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:6px 8px;display:grid;font-size:13px;color:var(--muted)}
 .bk-sum b{font:800 15px var(--f-body);color:var(--ink)}
 #bkMsg.ok{color:var(--green);font-weight:700} #bkMsg.err{color:var(--red);font-weight:700}
+/* floating read-all controls: always reachable while the list scrolls */
+.ra-float{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:10px;
+  background:var(--edge);color:var(--surface);border-radius:99px;padding:8px 8px 8px 16px;box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:calc(100vw - 24px)}
+.raf-num{font:800 14px var(--f-word);background:var(--g-p);color:#fff;border-radius:99px;padding:2px 9px}
+.raf-word{font:800 18px var(--f-word);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;max-width:34vw}
+.raf-prog{font:700 13px var(--f-word);opacity:.8;font-variant-numeric:tabular-nums;white-space:nowrap}
+.raf-btn{border:0;border-radius:99px;padding:9px 16px;font-weight:800;font-size:15px;background:var(--surface);color:var(--ink);white-space:nowrap}
+.raf-btn.stop{background:#E5484D;color:#fff}
+@media (max-width:480px){.ra-float{gap:6px;padding:6px 6px 6px 10px}.raf-word{font-size:15px;max-width:26vw}.raf-prog{display:none}.raf-btn{padding:8px 12px;font-size:14px}}
+body.ra-on footer.foot{margin-bottom:84px}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -1132,6 +1142,13 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     <button class="btn primary" id="lbClose">關閉 ✕</button>
   </div>
   <div class="lb-scroll" id="lbScroll"><img id="lbImg" alt="字典認證試題卷大圖"></div>
+</div>
+<div class="ra-float" id="raFloat" hidden role="region" aria-label="朗讀控制">
+  <span class="raf-num" id="rafNum">01</span>
+  <span class="raf-word" id="rafWord">rank</span>
+  <span class="raf-prog" id="rafProg">1 / 120</span>
+  <button class="raf-btn" id="rafPause">⏸ 暫停</button>
+  <button class="raf-btn stop" id="rafStop">⏹ 停止朗讀</button>
 </div>
 <footer class="foot">
   <span>認證辦法、試題 PDF 與影片拍攝須知：</span>
@@ -2109,6 +2126,7 @@ function raStop(){
   if(!RA)return; clearTimeout(RA.t); try{RA.a&&RA.a.pause();}catch(e){} try{speechSynthesis.cancel();}catch(e){}
   document.querySelectorAll(".card.playing").forEach(c=>c.classList.remove("playing"));
   RA=null; $("raGo").textContent="▶ 一次唸完所有單字"; $("raGo").classList.remove("on"); $("raProg").textContent="";
+  $("raFloat").hidden=true; document.body.classList.remove("ra-on");
 }
 function raStep(){
   if(!RA)return;
@@ -2117,7 +2135,8 @@ function raStep(){
   const n=RA.list[RA.i], o=W[n-1], card=grid.querySelector('.card[data-n="'+n+'"]');
   if(card){ card.classList.add("playing"); card.scrollIntoView({block:"center",behavior:"smooth"}); }
   $("raProg").textContent=(RA.i+1)+" / "+RA.list.length;
-  const gap=+$("raGap").value*1000, next=()=>{ if(!RA)return; RA.i++; RA.t=setTimeout(raStep,gap); };
+  $("rafNum").textContent=pad(n); $("rafWord").textContent=o.w; $("rafProg").textContent=(RA.i+1)+" / "+RA.list.length; $("rafPause").textContent="⏸ 暫停";
+  const gap=+$("raGap").value*1000, next=()=>{ if(!RA)return; RA.i++; if(RA.paused){RA.wait=true;return;} RA.t=setTimeout(raStep,gap); };
   const src=AUDIO[LV.key]&&AUDIO[LV.key][n];
   if(src){ const a=new Audio(src); RA.a=a; a.onended=next; a.onerror=next; a.play().catch(next); }
   else { ttsSpeak(o.w); RA.t=setTimeout(next,1200); }
@@ -2127,9 +2146,18 @@ $("raGo").addEventListener("click",()=>{
   const list=[...grid.querySelectorAll(".card")].filter(c=>!c.hidden).map(c=>+c.dataset.n);
   if(!list.length){ $("raProg").textContent="目前篩選沒有題目"; return; }
   try{ clipPlayer&&clipPlayer.pause(); }catch(e){}
-  RA={list,i:0,t:null,a:null}; $("raGo").textContent="⏹ 停止朗讀"; $("raGo").classList.add("on"); raStep();
+  RA={list,i:0,t:null,a:null,paused:false,wait:false}; $("raGo").textContent="⏹ 停止朗讀"; $("raGo").classList.add("on");
+  $("raFloat").hidden=false; document.body.classList.add("ra-on"); raStep();
 });
 document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(b.dataset.target!=="overview")raStop(); }));
+$("rafStop").addEventListener("click",raStop);
+$("rafPause").addEventListener("click",()=>{
+  if(!RA)return;
+  if(!RA.paused){ RA.paused=true; clearTimeout(RA.t); try{RA.a&&RA.a.pause();}catch(e){} $("rafPause").textContent="▶ 繼續"; }
+  else { RA.paused=false; $("rafPause").textContent="⏸ 暫停";
+    if(RA.wait||!RA.a||RA.a.ended){ RA.wait=false; raStep(); } else { RA.a.play().catch(()=>raStep()); } }
+});
+
 
 /* ===== backup / restore of stars and progress ===== */
 let BKMODE="merge";
