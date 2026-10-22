@@ -596,6 +596,50 @@ nav.tabs .nav-end .cur{margin-left:0}
 .raf-btn.stop{background:#E5484D;color:#fff}
 @media (max-width:480px){.ra-float{gap:6px;padding:6px 6px 6px 10px}.raf-word{font-size:15px;max-width:26vw}.raf-prog{display:none}.raf-btn{padding:8px 12px;font-size:14px}}
 body.ra-on footer.foot{margin-bottom:84px}
+/* ===== v8: practice schedule ===== */
+:root{--g-s:#7A5AA8;--g-s-soft:#EEE8F7;--ph1:#4E9E3F;--ph2:#2F8C7E;--ph3:#3B7FBF;--ph4:#7A5AA8;--ph5:#C1272D}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--g-s:#B79BE3;--g-s-soft:#2A2238;--ph1:#7CCB69;--ph2:#5CC2B2;--ph3:#7DB4E8;--ph4:#B79BE3;--ph5:#F07373}}
+:root[data-theme="dark"]{--g-s:#B79BE3;--g-s-soft:#2A2238;--ph1:#7CCB69;--ph2:#5CC2B2;--ph3:#7DB4E8;--ph4:#B79BE3;--ph5:#F07373}
+.tg-s{--gc:var(--g-s);--gs:var(--g-s-soft)} .ph-s{--gc:var(--g-s)}
+.pl-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start}
+@media (max-width:900px){.pl-top{grid-template-columns:1fr}}
+.pl-set{display:grid;gap:10px}
+.pl-set select{padding:6px 8px;border:2px solid var(--edge);border-radius:10px;background:var(--surface)}
+.pl-levels{display:grid;gap:8px;margin-top:6px}
+.pl-lv{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--surface)}
+.pl-lv.now{border-color:var(--g-s);box-shadow:0 0 0 3px var(--g-s-soft)}
+.pl-lv b{font-family:var(--f-display);font-size:20px}
+.pl-lv .dates{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pl-lv .due{font-size:13px;font-weight:800;color:var(--red);white-space:nowrap;text-align:right}
+.pl-lv .pbar{grid-column:1/-1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.pl-lv .pbar i{display:block;height:100%;background:var(--g-s)}
+.pl-today{display:grid;gap:10px;border-color:var(--g-s)}
+.pl-today .t-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.pl-today .t-head b{font-family:var(--f-display);font-size:22px}
+.pl-today .t-chip{font-size:13px;font-weight:800;color:#fff;border-radius:99px;padding:2px 10px}
+.pl-today .t-task{font-size:17px;font-weight:700;line-height:1.6}
+.pl-today .t-cd{font:800 15px var(--f-word);color:var(--red)}
+.pl-today .row{justify-content:flex-start}
+.pl-tabs{margin:26px 0 10px}
+.pl-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin-bottom:12px}
+.pl-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.pl-legend .ph1{background:var(--ph1)}.pl-legend .ph2{background:var(--ph2)}.pl-legend .ph3{background:var(--ph3)}.pl-legend .ph4{background:var(--ph4)}.pl-legend .ph5{background:var(--ph5)}
+.pl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.pl-u{border:2px solid var(--line);border-top:6px solid var(--pc);border-radius:14px;background:var(--surface);padding:10px 12px;display:grid;gap:6px;align-content:start}
+.pl-u.cur{border-color:var(--pc);box-shadow:0 0 0 3px color-mix(in srgb,var(--pc) 22%,transparent)}
+.pl-u.past{opacity:.78}
+.pl-u header{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pl-u header b{font:800 15px var(--f-word);color:var(--pc)}
+.pl-u header span{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pl-u h4{margin:0;font-family:var(--f-display);font-size:17px}
+.pl-u ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.pl-u li{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:6px;align-items:start;font-size:13.5px;line-height:1.5;padding:3px 4px;border-radius:8px}
+.pl-u li.today{background:var(--g-s-soft)}
+.pl-u li .d{font:700 12px var(--f-word);color:var(--muted);white-space:nowrap;padding-top:2px;font-variant-numeric:tabular-nums}
+.pl-u li input{margin-top:3px}
+.pl-u li.done span.tx{text-decoration:line-through;color:var(--muted)}
+.pl-u .u-go{justify-self:start;font-size:13px;padding:5px 12px}
+.pl-u.ph1{--pc:var(--ph1)}.pl-u.ph2{--pc:var(--ph2)}.pl-u.ph3{--pc:var(--ph3)}.pl-u.ph4{--pc:var(--ph4)}.pl-u.ph5{--pc:var(--ph5)}.pl-u.ph0{--pc:var(--muted)}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -626,6 +670,9 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </header>
 
 <nav class="tabs" role="tablist" aria-label="學習單分頁">
+  <span class="tg tg-s"><i>規劃</i>
+    <button role="tab" data-target="plan" aria-selected="false">📅 練習日程</button>
+  </span>
   <span class="tg tg-p"><i>練習</i>
     <button role="tab" data-target="overview" aria-selected="true"><b>1</b>試題總覽</button>
     <button role="tab" data-target="drill" aria-selected="false"><b>2</b>逐題練習</button>
@@ -645,6 +692,27 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   </span>
   <span class="nav-end"><span class="cur" id="curLv">字典初級</span><button class="refresh" id="refresh" title="重新整理網頁" aria-label="重新整理網頁">↻ 重新整理</button></span>
 </nav>
+
+<section class="panel" id="plan" hidden>
+  <header class="ph ph-s"><h2>練習日程</h2><p>每兩個月認證一個級別，每月月底 23:59 截止收件。以 5 天為一個單元，從看字、跟讀、模擬一路排到正式錄影上傳。</p></header>
+  <div class="pl-top">
+    <article class="ocard pl-set">
+      <h2 class="otab">我的時程</h2>
+      <label class="f-row" for="plStart"><span>開始月份</span><select id="plStart"></select></label>
+      <label class="f-row" for="plFirst"><span>認證順序</span>
+        <select id="plFirst"><option value="l1">初級 → 中級 → 高級</option><option value="l2">中級 → 高級</option><option value="l3">只排高級</option></select>
+      </label>
+      <p class="hint" style="margin:4px 0 0">一個級別兩個月：第 1 個月學新字，第 2 個月複習、模擬錄音錄影，月底前完成正式錄影與上傳。</p>
+      <div class="pl-levels" id="plLevels"></div>
+    </article>
+    <article class="ocard pl-today" id="plToday"></article>
+  </div>
+  <div class="pl-tabs seg" role="group" aria-label="選擇級別日程" id="plLvTabs"></div>
+  <div class="pl-legend">
+    <span><i class="ph1"></i>學新字</span><span><i class="ph2"></i>全卷複習</span><span><i class="ph3"></i>模擬錄音</span><span><i class="ph4"></i>模擬錄影</span><span><i class="ph5"></i>正式錄影・上傳</span>
+  </div>
+  <div class="pl-grid" id="plGrid"></div>
+</section>
 
 <section class="panel" id="overview">
   <header class="ph ph-p"><span class="ph-n">1</span><h2>試題總覽</h2><p>先看官方試題卷，再逐張卡片聽真人音檔，標記「會了」「再練」或 ★ 重點。</p></header>
@@ -774,7 +842,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   </div>
   <article class="ocard bk-card">
     <h2 class="otab">備份・匯出・匯入</h2>
-    <p>把三個級別的 ★ 重點和「會了／再練」紀錄存成備份，換手機、換電腦或清除瀏覽器後，再匯入就能接著練。</p>
+    <p>把三個級別的 ★ 重點、「會了／再練」紀錄和練習日程的打勾進度存成備份，換手機、換電腦或清除瀏覽器後，再匯入就能接著練。</p>
     <div class="bk-grid">
       <div class="bk-col">
         <h3>匯出備份</h3>
@@ -1289,6 +1357,7 @@ function buildOrder(){
   if(v==="again")list=list.filter(n=>S[n]===2);
   if(v==="todo")list=list.filter(n=>!S[n]);
   if(v==="star")list=list.filter(n=>isStar(n));
+  if(v[0]==="r"){const [a,b]=v.slice(1).split("-").map(Number); list=list.filter(n=>n>=a&&n<=b);}
   if($("dShuffle").checked){for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}}
   ORDER=list; POS=0;
 }
@@ -2161,7 +2230,7 @@ $("rafPause").addEventListener("click",()=>{
 
 /* ===== backup / restore of stars and progress ===== */
 let BKMODE="merge";
-function bkData(){ return {app:"sor-dict-cert",v:1,at:new Date().toISOString(),name:STU||"",star:STAR,progress:ST}; }
+function bkData(){ return {app:"sor-dict-cert",v:1,at:new Date().toISOString(),name:STU||"",star:STAR,progress:ST,plan:PLAN}; }
 function bkCounts(d){ return LEVELS.map(l=>{ const s=(d.star&&d.star[l.key])||{}, p=(d.progress&&d.progress[l.key])||{}; const ok=Object.values(p).filter(v=>v===1).length, ag=Object.values(p).filter(v=>v===2).length; return {name:l.name,star:Object.keys(s).length,ok,ag}; }); }
 function bkRender(){
   const d=bkData();
@@ -2197,11 +2266,125 @@ $("bkGo").addEventListener("click",()=>{
     else { Object.assign(STAR[l.key],s); for(const k in p){ if(ST[l.key][k]!==1)ST[l.key][k]=p[k]; } }
   });
   saveStar(); save();
+  if(d.plan&&typeof d.plan==="object"){ const dp=d.plan; if(BKMODE==="replace"||!PLAN.start){ if(/^\d{4}-\d{2}$/.test(dp.start||""))PLAN.start=dp.start; if(["l1","l2","l3"].includes(dp.first))PLAN.first=dp.first; }
+    const dd=dp.done&&typeof dp.done==="object"?dp.done:{}; if(BKMODE==="replace")PLAN.done={}; for(const k in dd){ if(/^l[123]-u\d{1,2}-d\d$/.test(k)&&dd[k])PLAN.done[k]=1; } savePlan(); try{renderPlan();}catch(e){} }
   if(d.name&&!STU){ STU=String(d.name).slice(0,30); try{localStorage.setItem(KEY+"-name",STU);}catch(e){} }
   const keep=LV.key; setLevel(keep); bkRender();
   const c=bkCounts(bkData()).map(x=>x.name+" ★"+x.star).join("、");
   msg.className="status ok"; msg.textContent="匯入完成（"+(BKMODE==="replace"?"覆蓋":"合併")+"）："+c+"。"; $("bkIn").value="";
 });
+
+/* ===== practice schedule: 2 months per level, 12 five-day units ending on the month-end deadline ===== */
+let PLAN={start:"",first:"l1",lv:"",done:{}}; try{Object.assign(PLAN,JSON.parse(localStorage.getItem(KEY+"-plan")||"{}"));}catch(e){}
+function savePlan(){try{localStorage.setItem(KEY+"-plan",JSON.stringify(PLAN));}catch(e){}}
+const DAY=86400000;
+const d0=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+const fmtD=d=>(d.getMonth()+1)+"/"+d.getDate();
+const WK="日一二三四五六";
+function defaultStart(){ const n=new Date(); const m=n.getDate()<=5?new Date(n.getFullYear(),n.getMonth(),1):new Date(n.getFullYear(),n.getMonth()+1,1); return m.getFullYear()+"-"+String(m.getMonth()+1).padStart(2,"0"); }
+function chunks(N,k){ const out=[]; let a=1; for(let i=0;i<k;i++){ const len=Math.round(N*(i+1)/k)-Math.round(N*i/k); out.push([a,a+len-1]); a+=len; } return out; }
+function levelPlan(key,y,m){
+  const lv=LEVELS.find(l=>l.key===key), N=lv.items.length;
+  const pStart=new Date(y,m,1), due=new Date(y,m+2,0);
+  const units=[]; const learn=chunks(N,6);
+  const half=Math.ceil(N/2), groups=chunks(N,4);
+  for(let u=1;u<=12;u++){
+    let end=new Date(due.getTime()-(12-u)*5*DAY), start=new Date(end.getTime()-4*DAY);
+    if(u===1&&start<pStart)start=pStart;
+    const days=[]; for(let t=start.getTime();t<=end.getTime();t+=DAY)days.push(new Date(t));
+    let ph, title, tasks, go;
+    if(u<=6){ const [a,b]=learn[u-1], c=chunks(b-a+1,4).map(([x,y2])=>[a+x-1,a+y2-1]);
+      ph=1; title="學新字：第 "+pad(a)+"–"+pad(b)+" 題";
+      tasks=[0,1,2,3].map(i=>({tx:"新字 "+pad(c[i][0])+"–"+pad(c[i][1])+"：看積木唸、聽音檔、不熟按 ☆",go:{tab:"drill",r:[c[i][0],c[i][1]]}}));
+      tasks.push({tx:"複習 "+pad(a)+"–"+pad(b)+"：「一次唸完」跟讀一遍",go:{tab:"overview"}});
+      go={tab:"drill",r:[a,b]};
+    } else if(u===7){ ph=2; title="全卷複習（前半）：第 01–"+pad(half)+" 題";
+      const g=chunks(half,4); tasks=g.map(([a,b])=>({tx:"逐題練習第 "+pad(a)+"–"+pad(b)+" 題，看積木不看字",go:{tab:"drill",r:[a,b]}}));
+      tasks.push({tx:"★ 重點複習：把打星號的題目練到熟",go:{tab:"review"}}); go={tab:"drill",r:[1,half]};
+    } else if(u===8){ ph=2; title="全卷複習（後半）：第 "+pad(half+1)+"–"+pad(N)+" 題";
+      const g=chunks(N-half,4).map(([a,b])=>[a+half,b+half]); tasks=g.map(([a,b])=>({tx:"逐題練習第 "+pad(a)+"–"+pad(b)+" 題，看積木不看字",go:{tab:"drill",r:[a,b]}}));
+      tasks.push({tx:"全卷「一次唸完」跟讀，標記仍不熟的「再練」",go:{tab:"overview"}}); go={tab:"drill",r:[half+1,N]};
+    } else if(u===9){ ph=3; title="模擬錄音：分段練節奏";
+      tasks=groups.map(([a,b],i)=>({tx:"模擬錄音第 "+pad(a)+"–"+pad(b)+" 題（選對應分組），回聽和標準音檔比對",go:{tab:"audio"}}));
+      tasks.push({tx:"只錄「再練」的題目，重錄到滿意",go:{tab:"audio"}}); go={tab:"audio"};
+    } else if(u===10){ ph=3; title="模擬錄音：全卷 5 分鐘內";
+      tasks=[{tx:"全卷模擬錄音，每題 2 秒，確認在 5 分鐘內",go:{tab:"audio"}},{tx:"回聽全卷，把唸不好的標「再練」或 ☆",go:{tab:"audio"}},{tx:"★ 重點複習＋「再練」題逐題練習",go:{tab:"review"}},{tx:"再錄一次全卷，比較和前天的差別",go:{tab:"audio"}},{tx:"全卷「一次唸完」跟讀，熟悉節奏",go:{tab:"overview"}}];
+      go={tab:"audio"};
+    } else if(u===11){ ph=4; title="模擬錄影：臉、嘴型、口白";
+      tasks=[{tx:"模擬錄影：試鏡頭位置與光線，臉和嘴巴放進定位框",go:{tab:"record"}},{tx:"模擬錄影全卷一鏡到底（含開場口白）",go:{tab:"record"}},{tx:"回看影片，找出卡住的題目做 ★ 重點複習",go:{tab:"review"}},{tx:"再錄一次全卷，確認 5 分鐘內、聲音清楚",go:{tab:"record"}},{tx:"設定姓名與檔名，確認認證須知與報名方式",go:{tab:"info"}}];
+      go={tab:"record"};
+    } else { ph=5; title="正式錄影・上傳・報名";
+      tasks=[{tx:"正式錄影：一鏡到底，錄完先回放檢查",go:{tab:"formalTab"}},{tx:"不滿意就重錄；挑最好的一支下載（檔名：姓名_字典"+lv.name+"認證）",go:{tab:"formalTab"}},{tx:"上傳到個人 Google 雲端資料夾，資料夾設為共享",go:{tab:"info"}},{tx:"完成官網報名與繳費，把雲端連結貼到報名表",go:{tab:"info"}},{tx:"截止日 23:59 前再確認一次連結能開啟（備用日）",go:{tab:"info"}}];
+      go={tab:"formalTab"};
+    }
+    // align tasks to the actual number of days in the unit (unit 1 can be shorter in February)
+    while(tasks.length>days.length){ const x=tasks.splice(tasks.length-2,1)[0]; tasks[tasks.length-2].tx+="；"+x.tx; }
+    units.push({u,ph,title,start,end,days,tasks,go});
+  }
+  const prepDays=Math.round((units[0].start-pStart)/DAY);
+  return {key,name:lv.name,N,pStart,due,units,prepDays,resultBy:new Date(y,m+2,15)};
+}
+function allPlans(){
+  if(!PLAN.start)PLAN.start=defaultStart();
+  const [y,m]=PLAN.start.split("-").map(Number); const order=["l1","l2","l3"]; const seq=order.slice(order.indexOf(PLAN.first||"l1"));
+  return seq.map((k,i)=>levelPlan(k,y,m-1+i*2));
+}
+function pKey(k,u,i){return k+"-u"+u+"-d"+i;}
+function lvDone(p){ let n=0,t=0; p.units.forEach(u=>u.tasks.forEach((_,i)=>{t++; if(PLAN.done[pKey(p.key,u.u,i)])n++;})); return [n,t]; }
+function planGo(go,key){
+  if(LV.key!==key)setLevel(key);
+  if(go.r){ const v="r"+go.r[0]+"-"+go.r[1]; if(![...dRange.options].some(o=>o.value===v)){ const o=document.createElement("option"); o.value=v; o.textContent="日程：第 "+pad(go.r[0])+"–"+pad(go.r[1])+" 題"; dRange.insertBefore(o,dRange.options[1]||null); } dRange.value=v; }
+  const b=document.querySelector('nav.tabs button[data-target="'+go.tab+'"]'); if(b){ b.click(); if(go.r){ buildOrder(); showCard(); } document.querySelector("nav.tabs").scrollIntoView({behavior:"smooth"}); }
+}
+function renderPlan(){
+  const sel=$("plStart"); if(!sel.options.length){ const n=new Date(); for(let i=-2;i<14;i++){ const d=new Date(n.getFullYear(),n.getMonth()+i,1), v=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); const o=document.createElement("option"); o.value=v; o.textContent=d.getFullYear()+" 年 "+(d.getMonth()+1)+" 月"; sel.appendChild(o);} }
+  const plans=allPlans(); sel.value=PLAN.start; $("plFirst").value=PLAN.first||"l1";
+  const today=d0(new Date());
+  let curP=plans.find(p=>today>=p.pStart&&today<=p.due);
+  // level cards
+  $("plLevels").innerHTML=plans.map(p=>{ const [n,t]=lvDone(p), left=Math.round((p.due-today)/DAY);
+    return '<div class="pl-lv'+(p===curP?' now':'')+'"><b>'+p.name+'</b><span class="dates">'+p.pStart.getFullYear()+'/'+fmtD(p.pStart)+' – '+fmtD(p.due)+'　結果 '+fmtD(p.resultBy)+' 前</span>'+
+      '<span class="due">'+(left<0?'已截止':left===0?'今天截止':'截止 '+fmtD(p.due)+'・剩 '+left+' 天')+'</span><span class="pbar"><i style="width:'+(t?n/t*100:0)+'%"></i></span></div>'; }).join("");
+  // today card
+  const T=$("plToday"); let html='<h2 class="otab">今天要做什麼</h2>';
+  if(curP){
+    const u=curP.units.find(x=>today>=d0(x.start)&&today<=d0(x.end));
+    if(u){ const di=u.days.findIndex(d=>d0(d).getTime()===today.getTime()), task=u.tasks[Math.min(di,u.tasks.length-1)], k=pKey(curP.key,u.u,Math.min(di,u.tasks.length-1));
+      const left=Math.round((curP.due-today)/DAY);
+      html+='<div class="t-head"><b>'+fmtD(today)+'（'+WK[today.getDay()]+'）</b><span class="t-chip" style="background:var(--ph'+u.ph+')">字典'+curP.name+'・第 '+u.u+' 單元・第 '+(di+1)+' 天</span></div>'+
+        '<div class="hint">'+u.title+'</div><div class="t-task">'+task.tx+'</div>'+
+        '<div class="row"><button class="btn primary" id="plTodayGo">開始今天的練習 →</button><label class="check"><input type="checkbox" id="plTodayDone" '+(PLAN.done[k]?'checked':'')+' data-k="'+k+'"> 今天完成了</label></div>'+
+        '<div class="t-cd">距離'+curP.name+'認證截止 '+fmtD(curP.due)+' 23:59 還有 '+left+' 天</div>';
+      T.innerHTML=html; $("plTodayGo").onclick=()=>planGo(task.go,curP.key);
+      $("plTodayDone").onchange=e=>{ if(e.target.checked)PLAN.done[k]=1; else delete PLAN.done[k]; savePlan(); renderPlan(); };
+    } else { html+='<div class="t-head"><b>'+fmtD(today)+'</b><span class="t-chip" style="background:var(--muted)">預備日</span></div><div class="t-task">先打開試題總覽，用「一次唸完」把'+curP.name+'全卷聽一遍，熟悉 SoR專利注音積木。</div><div class="row"><button class="btn primary" id="plTodayGo">打開試題總覽 →</button></div>';
+      T.innerHTML=html; $("plTodayGo").onclick=()=>planGo({tab:"overview"},curP.key); }
+  } else {
+    const nextP=plans.find(p=>today<p.pStart);
+    if(nextP){ const d=Math.round((nextP.pStart-today)/DAY);
+      html+='<div class="t-head"><b>'+fmtD(today)+'</b><span class="t-chip" style="background:var(--g-s)">日程還沒開始</span></div><div class="t-task">'+nextP.name+'從 '+nextP.pStart.getFullYear()+'/'+fmtD(nextP.pStart)+' 開始，還有 '+d+' 天。現在可以先用「一次唸完」把全卷聽幾遍。</div><div class="row"><button class="btn primary" id="plTodayGo">先聽'+nextP.name+'全卷 →</button></div>';
+      T.innerHTML=html; $("plTodayGo").onclick=()=>planGo({tab:"overview"},nextP.key);
+    } else { T.innerHTML=html+'<div class="t-task">這份日程已經結束。要排下一輪，請改「開始月份」。</div>'; }
+  }
+  // level tabs + unit grid
+  if(!PLAN.lv||!plans.some(p=>p.key===PLAN.lv))PLAN.lv=(curP||plans[0]).key;
+  $("plLvTabs").innerHTML=plans.map(p=>'<button data-pllv="'+p.key+'" aria-pressed="'+(p.key===PLAN.lv)+'">字典'+p.name+'（'+fmtD(p.pStart)+'–'+fmtD(p.due)+'）</button>').join("");
+  const P=plans.find(p=>p.key===PLAN.lv);
+  let g=''; if(P.prepDays>0)g+='<div class="pl-u ph0"><header><b>預備</b><span>'+fmtD(P.pStart)+'–'+fmtD(new Date(P.units[0].start.getTime()-DAY))+'</span></header><h4>熟悉網站與全卷</h4><ul><li><span></span><span></span><span class="tx">試題總覽「一次唸完」聽全卷；設定姓名與錄影位置</span></li></ul></div>';
+  g+=P.units.map(u=>{ const cur=today>=d0(u.start)&&today<=d0(u.end), past=today>d0(u.end);
+    return '<div class="pl-u ph'+u.ph+(cur?' cur':'')+(past?' past':'')+'"><header><b>單元 '+u.u+'</b><span>'+fmtD(u.start)+'–'+fmtD(u.end)+(u.u===12?'・截止 23:59':'')+'</span></header><h4>'+u.title+'</h4><ul>'+
+      u.tasks.map((tk,i)=>{ const d=u.days[i], k=pKey(P.key,u.u,i), dn=!!PLAN.done[k], td=d&&d0(d).getTime()===today.getTime();
+        return '<li class="'+(dn?'done ':'')+(td?'today':'')+'"><input type="checkbox" data-k="'+k+'" '+(dn?'checked':'')+' aria-label="完成 '+(d?fmtD(d):'')+'"><span class="d">'+(d?fmtD(d)+' '+WK[d.getDay()]:'')+'</span><span class="tx">'+tk.tx+'</span></li>'; }).join("")+
+      '</ul><button class="btn u-go" data-u="'+u.u+'">開始這個單元 →</button></div>'; }).join("");
+  $("plGrid").innerHTML=g;
+  $("plGrid").onchange=e=>{ const k=e.target.dataset.k; if(!k)return; if(e.target.checked)PLAN.done[k]=1; else delete PLAN.done[k]; savePlan(); renderPlan(); };
+  $("plGrid").onclick=e=>{ const b=e.target.closest(".u-go"); if(!b)return; const u=P.units[+b.dataset.u-1]; planGo(u.go,P.key); };
+  $("plLvTabs").onclick=e=>{ const b=e.target.closest("[data-pllv]"); if(!b)return; PLAN.lv=b.dataset.pllv; savePlan(); renderPlan(); };
+}
+$("plStart").addEventListener("change",e=>{PLAN.start=e.target.value; PLAN.lv=""; savePlan(); renderPlan();});
+$("plFirst").addEventListener("change",e=>{PLAN.first=e.target.value; PLAN.lv=""; savePlan(); renderPlan();});
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(b.dataset.target==="plan")renderPlan(); }));
+renderPlan();
 
 /* switch level */
 function setLevel(key){
