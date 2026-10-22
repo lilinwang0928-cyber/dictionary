@@ -698,6 +698,17 @@ body.ra-on footer.foot{margin-bottom:84px}
 .wc-mark[aria-pressed="true"].again{background:var(--amber);border-color:var(--amber);color:#fff}
 .wc-mark.ok{color:var(--green)} .wc-mark.again{color:var(--amber)}
 .wc-nav .btn:disabled{opacity:.35}
+/* ===== v11: record/stop button at the bottom-right of the recording frame ===== */
+.cv-ctl{position:absolute;right:12px;bottom:12px;display:flex;gap:8px;align-items:center;line-height:1.2;z-index:3}
+.cv-btn{border:2px solid #fff;border-radius:99px;padding:12px 20px;font:800 16px var(--f-body);color:#fff;background:#3D4340;box-shadow:0 4px 16px rgba(0,0,0,.35);white-space:nowrap}
+.cv-btn.go{background:#E5484D;border-color:#fff}
+.cv-btn.stop{background:#1E2722}
+.cv-btn.stop::before{content:"";display:inline-block;width:12px;height:12px;background:#E5484D;border-radius:2px;margin-right:8px;vertical-align:-1px}
+.cv-btn.sub{background:rgba(30,39,34,.85);padding:10px 14px;font-size:14px}
+.cv-btn:disabled{opacity:.55}
+@media (max-width:560px){.cv-ctl{right:8px;bottom:8px;gap:6px}.cv-btn{padding:10px 14px;font-size:14px}.cv-btn.sub{padding:8px 10px;font-size:13px}}
+#record.sfull .cv-ctl{right:calc(16px + env(safe-area-inset-right,0px));bottom:16px}
+#record.sfull .cvw{position:relative}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -1021,7 +1032,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   </div>
   <div class="studio">
     <div class="screen">
-      <div class="cvw"><canvas id="cv" width="1280" height="720" aria-label="錄影畫面預覽：背板、鏡頭與題目"></canvas><div class="fguide" id="cGuideBox"><svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><ellipse cx="50" cy="44" rx="21" ry="29" class="g-face"/><rect x="40" y="58" width="20" height="9" rx="4.5" class="g-mouth"/></svg><span class="g-tip">臉放進框內・嘴巴對準小框</span></div></div>
+      <div class="cvw"><canvas id="cv" width="1280" height="720" aria-label="錄影畫面預覽：背板、鏡頭與題目"></canvas><div class="fguide" id="cGuideBox"><svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><ellipse cx="50" cy="44" rx="21" ry="29" class="g-face"/><rect x="40" y="58" width="20" height="9" rx="4.5" class="g-mouth"/></svg><span class="g-tip">臉放進框內・嘴巴對準小框</span></div><div class="cv-ctl" id="cvCtl"><button class="cv-btn sub" id="cvNext" hidden>下一題 →</button><button class="cv-btn" id="cvMain">開啟鏡頭</button></div></div>
       <span class="dot" id="recDot" hidden>● 錄影中</span>
       <div class="cd-ov" id="cCount" hidden></div>
       <div class="sbar" id="sbar">
@@ -2556,6 +2567,23 @@ renderPlan();
 $("gdCopy").addEventListener("click",()=>{ const u="https://lilinwang0928-cyber.github.io/dictionary/", b=$("gdCopy");
   try{ navigator.clipboard.writeText(u).then(()=>{b.textContent="已複製";setTimeout(()=>b.textContent="複製網址",1500);},()=>{b.textContent=u;}); }catch(e){ b.textContent=u; } });
 
+/* one big button on the frame: 開啟鏡頭 → ● 開始錄影 → ■ 停止錄影 */
+function cvSync(){
+  const b=$("cvMain"), rec=!!(vRec&&vRec.state==="recording"), cd=!$("cCount").hidden;
+  b.classList.remove("go","stop");
+  if(!stream){ b.textContent="開啟鏡頭"; b.disabled=false; }
+  else if(cd){ b.textContent="倒數中…"; b.disabled=true; }
+  else if(rec){ b.textContent="停止錄影"; b.classList.add("stop"); b.disabled=false; }
+  else { b.textContent="● 開始錄影"; b.classList.add("go"); b.disabled=false; }
+  $("cvNext").hidden=!(rec&&running);
+}
+$("cvMain").addEventListener("click",()=>{
+  const rec=!!(vRec&&vRec.state==="recording");
+  if(!stream)$("cOn").click(); else if(rec)$("cStop").click(); else $("cRec").click();
+  setTimeout(cvSync,50);
+});
+$("cvNext").addEventListener("click",()=>$("pNext").click());
+setInterval(()=>{ if(!$("record").hidden)cvSync(); },250);
 /* switch level */
 function setLevel(key){
   const lv=LEVELS.find(l=>l.key===key)||LEVELS[0];
