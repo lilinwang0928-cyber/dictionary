@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;800&display=swap">
+<script>try{var t=localStorage.getItem("sor-dict-cert-v2-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <style>
 /* Layout: a test-sheet desk — level selector (初級/中級/高級) on top, sticky tool tabs, one working panel at a time; cards follow each PDF's numbering */
 :root{
@@ -709,6 +710,9 @@ body.ra-on footer.foot{margin-bottom:84px}
 @media (max-width:560px){.cv-ctl{right:8px;bottom:8px;gap:6px}.cv-btn{padding:10px 14px;font-size:14px}.cv-btn.sub{padding:8px 10px;font-size:13px}}
 #record.sfull .cv-ctl{right:calc(16px + env(safe-area-inset-right,0px));bottom:16px}
 #record.sfull .cvw{position:relative}
+.nav-end{display:inline-flex;align-items:center;gap:8px}
+.theme-btn{min-width:5.6em}
+@media (max-width:560px){.theme-btn{min-width:0}.theme-btn .tl{display:none}}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -760,7 +764,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     <button role="tab" data-target="extend" aria-selected="false">延伸學習</button>
     <button role="tab" data-target="guide" aria-selected="false">使用說明</button>
   </span>
-  <span class="nav-end"><span class="cur" id="curLv">字典初級</span><button class="refresh" id="refresh" title="重新整理網頁" aria-label="重新整理網頁">↻ 重新整理</button></span>
+  <span class="nav-end"><span class="cur" id="curLv">字典初級</span><button class="refresh theme-btn" id="themeBtn" type="button" title="切換深色／淺色版面" aria-label="切換深色／淺色版面">🌙 深色</button><button class="refresh" id="refresh" title="重新整理網頁" aria-label="重新整理網頁">↻ 重新整理</button></span>
 </nav>
 
 <section class="panel" id="plan" hidden>
@@ -2584,6 +2588,25 @@ $("cvMain").addEventListener("click",()=>{
 });
 $("cvNext").addEventListener("click",()=>$("pNext").click());
 setInterval(()=>{ if(!$("record").hidden)cvSync(); },250);
+/* dark / light theme toggle */
+(function(){
+  const btn=$("themeBtn"), root=document.documentElement, mq=window.matchMedia("(prefers-color-scheme: dark)");
+  const cur=()=>root.getAttribute("data-theme")||(mq.matches?"dark":"light");
+  function paint(){
+    const d=cur()==="dark";
+    btn.innerHTML=d?'☀️<span class="tl"> 淺色</span>':'🌙<span class="tl"> 深色</span>';
+    btn.setAttribute("aria-pressed",d?"true":"false");
+    btn.title=d?"切換為淺色版面":"切換為深色版面";
+  }
+  btn.addEventListener("click",()=>{
+    const next=cur()==="dark"?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem(KEY+"-theme",next);}catch(e){}
+    paint();
+  });
+  try{mq.addEventListener("change",paint);}catch(e){}
+  paint();
+})();
 /* switch level */
 function setLevel(key){
   const lv=LEVELS.find(l=>l.key===key)||LEVELS[0];
