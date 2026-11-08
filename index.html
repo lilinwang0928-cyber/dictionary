@@ -775,6 +775,22 @@ nav.tabs .tg button[aria-selected="true"] .ci-badge{background:var(--sel-ink);co
 .ci-cal .d.done:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .ci-cal .d.due{color:var(--red)}
 @media (max-width:560px){.ci-cal{gap:4px}.ci-cal .d{border-radius:9px;font-size:13px}.ci-cal .d.done::after{width:14px;height:14px;font-size:10px}.ci-nums b{font-size:22px}.ci-nums .ci-fire b{font-size:36px}.ci-date{font-size:20px}.ci-quote p{font-size:16.5px}}
+/* ===== nav: tabs scroll in their own lane, theme/refresh never cover them ===== */
+nav.tabs{flex-wrap:nowrap!important;overflow:visible!important;gap:8px;align-items:center}
+.tabs-scroll{display:flex;gap:8px;align-items:center;flex:1 1 auto;min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity;padding-block:2px}
+.tabs-scroll::-webkit-scrollbar{display:none}
+.tabs-scroll .tg{scroll-snap-align:start}
+nav.tabs .nav-end{position:static!important;box-shadow:none!important;padding-left:0!important;margin-left:0;flex:none;background:none}
+@media (min-width:900px){nav.tabs{flex-wrap:wrap!important;row-gap:8px}.tabs-scroll{display:contents}nav.tabs .nav-end{margin-left:auto}}
+@media (max-width:899px){nav.tabs .nav-end .cur{display:none}}
+@media (max-width:899px){.tabs-scroll{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent);padding-right:18px}}
+@media (max-width:560px){
+  nav.tabs{gap:6px}
+  nav.tabs .nav-end{gap:6px}
+  nav.tabs .nav-end .refresh{width:40px;height:40px;padding:0;display:inline-grid;place-items:center;font-size:17px;min-width:0}
+  nav.tabs .nav-end .refresh .rl{display:none}
+  nav.tabs .nav-end .refresh.sure{width:auto;height:auto;padding:4px 10px;font-size:12.5px;white-space:normal;max-width:9.5em;line-height:1.3}
+}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -805,6 +821,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </header>
 
 <nav class="tabs" role="tablist" aria-label="學習單分頁">
+<div class="tabs-scroll" id="tabsScroll">
   <span class="tg tg-s"><i>規劃</i>
     <button role="tab" data-target="plan" aria-selected="false">📅 練習日程</button>
     <button role="tab" data-target="checkin" aria-selected="false">✅ 每日打卡<span class="ci-badge" id="ciBadge" hidden></span></button>
@@ -827,7 +844,8 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     <button role="tab" data-target="extend" aria-selected="false">延伸學習</button>
     <button role="tab" data-target="guide" aria-selected="false">使用說明</button>
   </span>
-  <span class="nav-end"><span class="cur" id="curLv">字典初級</span><button class="refresh theme-btn" id="themeBtn" type="button" title="切換深色／淺色版面" aria-label="切換深色／淺色版面">🌙 深色</button><button class="refresh" id="refresh" title="重新整理網頁" aria-label="重新整理網頁">↻ 重新整理</button></span>
+</div>
+  <span class="nav-end"><span class="cur" id="curLv">字典初級</span><button class="refresh theme-btn" id="themeBtn" type="button" title="切換深色／淺色版面" aria-label="切換深色／淺色版面">🌙 深色</button><button class="refresh" id="refresh" title="重新整理網頁" aria-label="重新整理網頁">↻<span class="rl"> 重新整理</span></button></span>
 </nav>
 
 <section class="panel" id="plan" hidden>
@@ -2438,7 +2456,7 @@ $("refresh").addEventListener("click",()=>{
   const unsaved=TAKES.some(k=>!k.saved)||(aFullUrl&&!$("aFullDl").hidden)||!$("dl").hidden;
   const b=$("refresh");
   if(unsaved&&!b.dataset.sure){ b.dataset.sure="1"; b.textContent="有錄影還沒下載，再按一次重新整理"; b.classList.add("sure");
-    setTimeout(()=>{ if(b.dataset.sure){ delete b.dataset.sure; b.textContent="↻ 重新整理"; b.classList.remove("sure"); } },4000); return; }
+    setTimeout(()=>{ if(b.dataset.sure){ delete b.dataset.sure; b.innerHTML='↻<span class="rl"> 重新整理</span>'; b.classList.remove("sure"); } },4000); return; }
   window.removeEventListener("beforeunload",window.__bu||(()=>{}));
   window.__skipBU=true; location.reload();
 });
