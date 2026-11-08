@@ -713,6 +713,68 @@ body.ra-on footer.foot{margin-bottom:84px}
 .nav-end{display:inline-flex;align-items:center;gap:8px}
 .theme-btn{min-width:5.6em}
 @media (max-width:560px){.theme-btn{min-width:0}.theme-btn .tl{display:none}}
+/* ===== daily check-in ===== */
+.ci-badge{margin-left:6px;font:800 11.5px var(--f-word);background:var(--red);color:#fff;border-radius:99px;padding:0 7px;line-height:18px}
+nav.tabs .tg button[aria-selected="true"] .ci-badge{background:var(--sel-ink);color:var(--gc)}
+.ci-top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.ci-top{grid-template-columns:1fr}}
+.ci-today{display:grid;gap:12px;border-color:var(--g-s);position:relative;overflow:hidden}
+.ci-date{font-family:var(--f-display);font-size:24px;font-weight:700;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.ci-date small{font:700 14px var(--f-body);color:var(--muted)}
+.ci-quote{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--g-s-soft);border-radius:14px;padding:12px 14px}
+.ci-q-ic{font-size:22px;line-height:1.2}
+.ci-quote p{margin:0;font-family:var(--f-display);font-size:18px;line-height:1.6;color:var(--ink)}
+.ci-acts{border:0;margin:0;padding:0;display:grid;gap:6px}
+.ci-acts legend{font-size:13.5px;color:var(--muted);font-weight:700;padding:0;margin-bottom:4px}
+#ciActs{display:flex;flex-wrap:wrap;gap:6px}
+.ci-act{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:99px;padding:4px 12px 4px 8px;font-weight:700;font-size:14px;cursor:pointer;background:var(--surface);user-select:none}
+.ci-act input{position:absolute;opacity:0;pointer-events:none}
+.ci-act i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);font-size:12px;color:transparent}
+.ci-act:has(input:checked){border-color:var(--g-s);background:var(--g-s-soft)}
+.ci-act:has(input:checked) i{background:var(--g-s);border-color:var(--g-s);color:#fff}
+.ci-act:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:2px}
+.ci-note{display:grid;gap:4px;font-size:13.5px;color:var(--muted);font-weight:700}
+.ci-note input{padding:8px 10px;border:2px solid var(--line);border-radius:10px;background:var(--surface);min-width:0;font-weight:400;color:var(--ink)}
+.ci-go-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ci-go{font-size:18px;padding:12px 26px;background:var(--g-s);border-color:var(--g-s);color:#fff}
+.ci-go:disabled{opacity:1;cursor:default;background:var(--g-s-soft);color:var(--g-s);border-color:var(--g-s)}
+.btn.ghost{background:transparent}
+.ci-stamp{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;border:2px dashed var(--g-s);border-radius:14px;padding:12px 14px;background:var(--surface)}
+.ci-seal{width:64px;height:64px;border-radius:50%;border:3px solid var(--red);color:var(--red);display:grid;place-items:center;text-align:center;font:800 13px/1.15 var(--f-display);transform:rotate(-12deg);background:var(--red-soft)}
+.ci-seal b{display:block;font:800 20px var(--f-word)}
+.ci-stamp.pop .ci-seal{animation:seal .55s cubic-bezier(.2,1.6,.4,1)}
+@keyframes seal{0%{transform:scale(2.2) rotate(-30deg);opacity:0}100%{transform:scale(1) rotate(-12deg);opacity:1}}
+.ci-stamp .msg{display:grid;gap:2px}
+.ci-stamp .msg b{font-family:var(--f-display);font-size:19px}
+.ci-stamp .msg span{color:var(--muted);font-size:14px}
+.ci-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ci-nums div{border:2px solid var(--line);border-radius:14px;padding:8px 10px;display:grid;justify-items:center;text-align:center;background:var(--surface)}
+.ci-nums b{font:800 26px var(--f-word);font-variant-numeric:tabular-nums;color:var(--ink)}
+.ci-nums span{font-size:12.5px;color:var(--muted);font-weight:700}
+.ci-nums .ci-fire{grid-column:1/-1;border-color:var(--g-s);background:var(--g-s-soft)}
+.ci-nums .ci-fire b{font-size:44px;color:var(--g-s)}
+.ci-nums .ci-fire b::before{content:"🔥 ";font-size:30px}
+.ci-next{margin-top:12px;font-size:14.5px;font-weight:700}
+.ci-next .bar{margin-top:6px}
+.ci-next .bar i{background:var(--g-s)}
+.ci-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.ci-badges span{font-size:13px;font-weight:800;border:2px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.ci-badges span.got{border-color:var(--star);background:var(--star-soft);color:var(--ink)}
+.ci-cal-card{margin-top:34px}
+.ci-cal-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+.ci-cal-head b{font-family:var(--f-display);font-size:20px;min-width:7.5em;text-align:center}
+.ci-cal-head .btn{padding:6px 14px}
+.ci-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.ci-cal .wd{text-align:center;font-size:12.5px;font-weight:800;color:var(--muted)}
+.ci-cal .d{all:unset;box-sizing:border-box;aspect-ratio:1/1;max-height:84px;border:1.5px solid var(--line);border-radius:12px;display:grid;place-items:center;position:relative;font:700 15px var(--f-word);color:var(--ink);background:var(--surface);cursor:default}
+.ci-cal .d.out{visibility:hidden}
+.ci-cal .d.future{color:var(--muted);opacity:.55}
+.ci-cal .d.today{border:2.5px solid var(--g-s)}
+.ci-cal .d.done{cursor:pointer;background:var(--g-s-soft);border-color:var(--g-s)}
+.ci-cal .d.done::after{content:"✓";position:absolute;inset:auto 4px 2px auto;font:800 13px var(--f-word);color:#fff;background:var(--red);border-radius:50%;width:18px;height:18px;display:grid;place-items:center;transform:rotate(-12deg)}
+.ci-cal .d.done:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.ci-cal .d.due{color:var(--red)}
+@media (max-width:560px){.ci-cal{gap:4px}.ci-cal .d{border-radius:9px;font-size:13px}.ci-cal .d.done::after{width:14px;height:14px;font-size:10px}.ci-nums b{font-size:22px}.ci-nums .ci-fire b{font-size:36px}.ci-date{font-size:20px}.ci-quote p{font-size:16.5px}}
 /* footer band */
 .linkish{border:0;background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px;font-size:13.5px;padding:0 4px}
 footer.foot{background:var(--field);color:var(--field-ink);border:0;border-radius:22px;padding:16px 20px;margin-top:36px}
@@ -745,6 +807,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 <nav class="tabs" role="tablist" aria-label="學習單分頁">
   <span class="tg tg-s"><i>規劃</i>
     <button role="tab" data-target="plan" aria-selected="false">📅 練習日程</button>
+    <button role="tab" data-target="checkin" aria-selected="false">✅ 每日打卡<span class="ci-badge" id="ciBadge" hidden></span></button>
   </span>
   <span class="tg tg-p"><i>練習</i>
     <button role="tab" data-target="overview" aria-selected="true"><b>1</b>試題總覽</button>
@@ -786,6 +849,41 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     <span><i class="ph1"></i>學新字</span><span><i class="ph2"></i>全卷複習</span><span><i class="ph3"></i>模擬錄音</span><span><i class="ph4"></i>模擬錄影</span><span><i class="ph5"></i>正式錄影・上傳</span>
   </div>
   <div class="pl-grid" id="plGrid"></div>
+</section>
+
+<section class="panel" id="checkin" hidden>
+  <header class="ph ph-s"><h2>每日打卡</h2><p>每天練一點，練完就來蓋章。連續打卡會累積「連勝」，天天都有一句鼓勵小語陪你走到正式錄影。</p></header>
+  <div class="ci-top">
+    <article class="ocard ci-today" id="ciToday">
+      <h2 class="otab">今天</h2>
+      <div class="ci-date" id="ciDate"></div>
+      <blockquote class="ci-quote"><span class="ci-q-ic" aria-hidden="true">💬</span><p id="ciQuote"></p></blockquote>
+      <fieldset class="ci-acts"><legend>今天練了哪些？（打開過的分頁會自動勾起來）</legend><div id="ciActs"></div></fieldset>
+      <label class="ci-note"><span>給自己一句話（可不填）</span><input id="ciNote" maxlength="40" placeholder="例如：今天把 ㄌ 的字都唸順了"></label>
+      <div class="ci-go-row">
+        <button class="btn ci-go" id="ciGo">✅ 今日打卡</button>
+        <button class="btn ghost" id="ciUndo" hidden>取消今天的打卡</button>
+      </div>
+      <div class="ci-stamp" id="ciStamp" hidden aria-live="polite"></div>
+    </article>
+    <article class="ocard ci-stats">
+      <h2 class="otab">我的連勝</h2>
+      <div class="ci-nums">
+        <div class="ci-fire"><b id="ciStreak">0</b><span>連續打卡（天）</span></div>
+        <div><b id="ciBest">0</b><span>最長連續</span></div>
+        <div><b id="ciTotal">0</b><span>累計打卡</span></div>
+        <div><b id="ciMonth">0</b><span>本月打卡</span></div>
+      </div>
+      <div class="ci-next" id="ciNext"></div>
+      <div class="ci-badges" id="ciBadges"></div>
+    </article>
+  </div>
+  <article class="ocard ci-cal-card">
+    <h2 class="otab">打卡月曆</h2>
+    <div class="ci-cal-head"><button class="btn" id="ciPrev" aria-label="上個月">‹</button><b id="ciCalTitle"></b><button class="btn" id="ciNextM" aria-label="下個月">›</button><button class="btn ghost" id="ciThis">回到本月</button></div>
+    <div class="ci-cal" id="ciCal"></div>
+    <p class="hint" id="ciDayInfo" style="margin:10px 0 0">點月曆上蓋過章的日子，可以看到那天練了什麼。</p>
+  </article>
 </section>
 
 <section class="panel" id="overview">
@@ -1203,7 +1301,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
         <li><b>瀏覽器</b>：手機用 Safari（iPhone）或 Chrome（Android），電腦用 Chrome。</li>
         <li><b>權限</b>：第一次錄音、錄影時，請按「允許」使用麥克風和相機。</li>
         <li><b>姓名</b>：到「認證須知」填姓名，錄好的檔案會自動命名為「姓名_字典○級認證」。</li>
-        <li><b>紀錄存在哪</b>：★ 重點、會了／再練、日程打勾都存在這台裝置的瀏覽器裡；換裝置前先到「重點複習」匯出備份。</li>
+        <li><b>紀錄存在哪</b>：★ 重點、會了／再練、日程打勾、每日打卡都存在這台裝置的瀏覽器裡；換裝置前先到「重點複習」匯出備份。</li>
         <li><b>錄好的影片</b>：只暫存在目前頁面，請先下載再關閉或重新整理。</li>
         <li><b>音檔</b>：每個單字都是真人示範音檔，請打開聲音（iPhone 側邊靜音鍵要關閉）。</li>
       </ul>
@@ -1212,6 +1310,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
   <article class="ocard gd-steps">
     <h2 class="otab">怎麼練：六個步驟</h2>
     <ol class="gd-flow">
+      <li class="s0"><b>✅ 每日打卡</b><span>練完來蓋章：會自動勾出今天打開過的練習，累積連續天數，每天一句鼓勵小語。</span><button class="btn" data-go="checkin">打開</button></li>
       <li class="s0"><b>📅 練習日程</b><span>選開始月份，每天照「今天要做什麼」練；一級兩個月，月底 23:59 截止。</span><button class="btn" data-go="plan">打開</button></li>
       <li class="s1"><b>1 試題總覽</b><span>看官方試題卷；點卡片聽單字，或按「一次唸完」跟讀全卷，可暫停、停止。</span><button class="btn" data-go="overview">打開</button></li>
       <li class="s1"><b>2 逐題練習</b><span>先看 SoR專利注音積木自己唸，再翻開聽音檔；鍵盤：空白鍵翻開、← → 換題、1 會了、2 再練、S 加星號。</span><button class="btn" data-go="drill">打開</button></li>
@@ -1238,7 +1337,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
     <article class="ocard flow-card">
       <h2 class="otab">認證流程</h2>
       <ol class="flow">
-        <li><b>點擊官網報名連結</b><a class="mini" href="https://milinguall.com/news_2024.aspx?id=347" target="_blank" rel="noopener">前往認證頁面 ↗</a></li>
+        <li><b>點擊官網報名連結</b><a class="mini" href="https://www.milinguall.com/sor-cert/dictionary" target="_blank" rel="noopener">前往認證頁面 ↗</a></li>
         <li><b>字典認證</b><span>選初級、中級或高級，照試題唸讀。</span></li>
         <li><b>完成認證影片錄製，上傳至個人雲端資料夾，並將<em>雲端資料夾設為共享</em>。</b><span class="note-pill">★ 雲端連結請貼至報名表單內</span></li>
         <li><b>完成繳費</b><span>認證費用 <em class="big">500 元</em></span><span class="note-pill">★ 於認證頁面公告正式題目</span></li>
@@ -1325,7 +1424,7 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
         <a class="btn" href="https://dusty-share-13b.notion.site/SoR-3f0a3cb5b3be8101b032d843019cf46b" target="_blank" rel="noopener">開啟 ↗</a>
       </li>
     </ol>
-    <p class="hint" style="margin:12px 0 0">也可以回到官方認證頁面查看最新公告：<a href="https://milinguall.com/news_2024.aspx?id=347" target="_blank" rel="noopener">蕭博士 SoR 美語・SoR 字典認證</a></p>
+    <p class="hint" style="margin:12px 0 0">也可以回到官方認證頁面查看最新公告：<a href="https://www.milinguall.com/sor-cert/dictionary" target="_blank" rel="noopener">蕭博士 SoR 美語・SoR 字典認證</a></p>
   </article>
 </section>
 
@@ -1367,8 +1466,8 @@ footer.foot a{color:var(--field-ink);text-decoration-color:var(--field-ink)}
 </div>
 <footer class="foot">
   <span>認證辦法、試題 PDF 與影片拍攝須知：</span>
-  <a href="https://milinguall.com/news_2024.aspx?id=347" target="_blank" rel="noopener">蕭博士 SoR 美語・SoR 字典認證</a>
-  <span>https://milinguall.com/news_2024.aspx?id=347</span>
+  <a href="https://www.milinguall.com/sor-cert/dictionary" target="_blank" rel="noopener">蕭博士 SoR 美語・SoR 字典認證</a>
+  <span>https://www.milinguall.com/sor-cert/dictionary</span>
 </footer>
 </div>
 
@@ -2412,7 +2511,7 @@ $("rafPause").addEventListener("click",()=>{
 
 /* ===== backup / restore of stars and progress ===== */
 let BKMODE="merge";
-function bkData(){ return {app:"sor-dict-cert",v:1,at:new Date().toISOString(),name:STU||"",star:STAR,progress:ST,plan:PLAN}; }
+function bkData(){ return {app:"sor-dict-cert",v:1,at:new Date().toISOString(),name:STU||"",star:STAR,progress:ST,plan:PLAN,checkin:CI.days}; }
 function bkCounts(d){ return LEVELS.map(l=>{ const s=(d.star&&d.star[l.key])||{}, p=(d.progress&&d.progress[l.key])||{}; const ok=Object.values(p).filter(v=>v===1).length, ag=Object.values(p).filter(v=>v===2).length; return {name:l.name,star:Object.keys(s).length,ok,ag}; }); }
 function bkRender(){
   const d=bkData();
@@ -2450,6 +2549,7 @@ $("bkGo").addEventListener("click",()=>{
   saveStar(); save();
   if(d.plan&&typeof d.plan==="object"){ const dp=d.plan; if(BKMODE==="replace"||!PLAN.start){ if(/^\d{4}-\d{2}$/.test(dp.start||""))PLAN.start=dp.start; if(["l1","l2","l3"].includes(dp.first))PLAN.first=dp.first; }
     const dd=dp.done&&typeof dp.done==="object"?dp.done:{}; if(BKMODE==="replace")PLAN.done={}; for(const k in dd){ if(/^l[123]-u\d{1,2}-d\d$/.test(k)&&dd[k])PLAN.done[k]=1; } savePlan(); try{renderPlan();}catch(e){} }
+  if(d.checkin&&typeof d.checkin==="object"){ if(BKMODE==="replace")CI.days={}; for(const k in d.checkin){ const r=d.checkin[k]; if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&r&&typeof r==="object")CI.days[k]={t:String(r.t||"").slice(0,5),lv:["l1","l2","l3"].includes(r.lv)?r.lv:"",acts:Array.isArray(r.acts)?r.acts.filter(a=>CI_ACTS.some(x=>x[0]===a)):[],note:String(r.note||"").slice(0,40)}; } ciSave(); try{ciRender();}catch(e){} }
   if(d.name&&!STU){ STU=String(d.name).slice(0,30); try{localStorage.setItem(KEY+"-name",STU);}catch(e){} }
   const keep=LV.key; setLevel(keep); bkRender();
   const c=bkCounts(bkData()).map(x=>x.name+" ★"+x.star).join("、");
@@ -2538,7 +2638,7 @@ function renderPlan(){
         '<div class="row"><button class="btn primary" id="plTodayGo">開始今天的練習 →</button><label class="check"><input type="checkbox" id="plTodayDone" '+(PLAN.done[k]?'checked':'')+' data-k="'+k+'"> 今天完成了</label></div>'+
         '<div class="t-cd">距離'+curP.name+'認證截止 '+fmtD(curP.due)+' 23:59 還有 '+left+' 天</div>';
       T.innerHTML=html; $("plTodayGo").onclick=()=>planGo(task.go,curP.key);
-      $("plTodayDone").onchange=e=>{ if(e.target.checked)PLAN.done[k]=1; else delete PLAN.done[k]; savePlan(); renderPlan(); };
+      $("plTodayDone").onchange=e=>{ if(e.target.checked){ PLAN.done[k]=1; try{ if(!CI.days[ciToday()]){ ciRenderActs(); const c=$("ciActs").querySelector('input[value="plan"]'); if(c)c.checked=true; ciCheckIn(); } }catch(err){} } else delete PLAN.done[k]; savePlan(); renderPlan(); };
     } else { html+='<div class="t-head"><b>'+fmtD(today)+'</b><span class="t-chip" style="background:var(--muted)">預備日</span></div><div class="t-task">先打開試題總覽，用「一次唸完」把'+curP.name+'全卷聽一遍，熟悉 SoR專利注音積木。</div><div class="row"><button class="btn primary" id="plTodayGo">打開試題總覽 →</button></div>';
       T.innerHTML=html; $("plTodayGo").onclick=()=>planGo({tab:"overview"},curP.key); }
   } else {
@@ -2607,6 +2707,116 @@ setInterval(()=>{ if(!$("record").hidden)cvSync(); },250);
   try{mq.addEventListener("change",paint);}catch(e){}
   paint();
 })();
+/* ===== daily check-in + encouragement ===== */
+const CI_ACTS=[["plan","📅 日程"],["overview","1 試題總覽"],["drill","2 逐題練習"],["review","3 重點複習"],["audio","4 模擬錄音"],["record","5 模擬錄影"],["formalTab","6 正式錄影"],["legend","注音積木"]];
+const CI_QUOTES=[
+ "今天唸一遍，明天就熟一點；積木疊起來，聲音就站得穩。",
+ "不用一次全會，只要今天比昨天多會一個字。",
+ "看積木、開口唸、再聽一次——三步做完，今天就贏了。",
+ "會唸錯沒關係，唸錯才知道哪裡要調；最怕的是不開口。",
+ "每一次跟讀，都是在幫大腦鋪一條新的路。",
+ "慢慢唸也是唸，穩穩的比快快的更好聽。",
+ "今天的十分鐘，就是錄影那天的十分把握。",
+ "把「再練」變成「會了」，就是最踏實的進步。",
+ "聲音是練出來的，不是等出來的。今天也練一下吧！",
+ "你不是在背單字，你是在學會「看字就唸得出來」。",
+ "累的時候少練一點也沒關係，重要的是今天有來。",
+ "SoR專利注音積木是你的地圖，照著拼，路就不會走錯。",
+ "對著鏡頭唸不習慣？多錄幾次，鏡頭就會變成你的朋友。",
+ "每個 ★ 重點，都是你特別照顧的字；今天去看看它們。",
+ "專心唸好一個字，比匆忙唸過十個字更有用。",
+ "嘴巴動起來、耳朵打開來，今天的練習就成功一半。",
+ "連續打卡不是為了數字，是讓練習變成你的好習慣。",
+ "今天卡住的字，明天再試一次，往往就通了。",
+ "聽真人示範，學的不只是音，還有節奏和語氣。",
+ "給自己一個讚：願意每天練習的人，本來就不簡單。",
+ "最難的永遠是開始；你已經打開練功房了，接下來就簡單了。",
+ "唸給家人聽聽看吧，教別人是最好的複習。",
+ "一天一點點，兩個月後你會驚訝自己走了多遠。",
+ "錄音聽起來怪怪的？那是你在認識自己的聲音，很正常。",
+ "練習不是比賽，你只需要跟昨天的自己比。",
+ "今天的你，又離正式錄影更近了一步。",
+ "把字唸清楚，就是對自己最好的鼓勵。",
+ "休息一下也很好，但記得明天回來蓋章喔！",
+ "相信積木、相信耳朵，也相信一直在練習的自己。",
+ "每一個你唸出來的字，都在為認證那天存款。",
+ "持續，比完美更重要。"
+];
+const CI_MILE=[[1,"起步章"],[3,"三日章"],[7,"一週章"],[14,"雙週章"],[21,"習慣章"],[30,"月光章"],[60,"兩月章"],[100,"百日章"]];
+const CI_MSG={1:"第一個章蓋好了！好的開始，是成功的一半。",3:"連續 3 天！練習的節奏已經出來了。",7:"連續一週！你已經養成習慣的雛形，太棒了！",14:"連續兩週！聲音越唸越穩，繼續保持。",21:"21 天，好習慣正式上身！",30:"連續 30 天！一整個月不間斷，給自己熱烈掌聲！",60:"連續 60 天！一個級別的完整旅程，你都陪自己走完了。",100:"百日連勝！你就是最好的示範。"};
+let CI={days:{},seen:{}};
+try{ const o=JSON.parse(localStorage.getItem(KEY+"-checkin")||"null"); if(o&&typeof o==="object"){ CI.days=o.days&&typeof o.days==="object"?o.days:{}; CI.seen=o.seen&&typeof o.seen==="object"?o.seen:{}; } }catch(e){}
+function ciSave(){ try{localStorage.setItem(KEY+"-checkin",JSON.stringify(CI));}catch(e){} }
+const ciP=x=>String(x).padStart(2,"0");
+function ciKey(d){ return d.getFullYear()+"-"+ciP(d.getMonth()+1)+"-"+ciP(d.getDate()); }
+function ciToday(){ return ciKey(new Date()); }
+function ciAdd(d,n){ const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()); x.setDate(x.getDate()+n); return x; }
+function ciStreak(){ let d=new Date(); if(!CI.days[ciKey(d)])d=ciAdd(d,-1); let n=0; while(CI.days[ciKey(d)]){ n++; d=ciAdd(d,-1);} return n; }
+function ciBest(){ const ks=Object.keys(CI.days).sort(); let best=0,run=0,prev=null; ks.forEach(k=>{ const [y,m,dd]=k.split("-").map(Number), d=new Date(y,m-1,dd); run=(prev&&ciKey(ciAdd(prev,1))===k)?run+1:1; best=Math.max(best,run); prev=d; }); return best; }
+function ciQuote(){ const d=new Date(), n=Math.floor(new Date(d.getFullYear(),d.getMonth(),d.getDate())/864e5); return CI_QUOTES[((n%CI_QUOTES.length)+CI_QUOTES.length)%CI_QUOTES.length]; }
+const CI_WD=["日","一","二","三","四","五","六"];
+let ciView=new Date(); ciView=new Date(ciView.getFullYear(),ciView.getMonth(),1);
+function ciRenderActs(){
+  const t=ciToday(), rec=CI.days[t], seen=(rec&&rec.acts)||CI.seen[t]||[];
+  $("ciActs").innerHTML=CI_ACTS.map(([k,l])=>'<label class="ci-act"><input type="checkbox" value="'+k+'"'+(seen.includes(k)?" checked":"")+'><i>✓</i>'+l+'</label>').join("");
+}
+function ciStampHTML(rec,streak){
+  const m=CI_MSG[streak];
+  return '<div class="ci-seal"><span><b>'+streak+'</b>天</span></div><div class="msg"><b>'+(m||("打卡完成！連續第 "+streak+" 天，繼續加油！"))+'</b><span>'+rec.t+' 蓋章'+(rec.acts&&rec.acts.length?'・練了 '+rec.acts.length+' 項':'')+(rec.note?'・「'+rec.note.replace(/[<>&]/g,"")+'」':'')+'</span></div>';
+}
+function ciRender(pop){
+  const now=new Date(), t=ciToday(), rec=CI.days[t], st=ciStreak();
+  $("ciDate").innerHTML=(now.getMonth()+1)+" 月 "+now.getDate()+" 日<small>星期"+CI_WD[now.getDay()]+"・"+LV.name+"</small>";
+  $("ciQuote").textContent=ciQuote();
+  if(!$("ciActs").childElementCount||pop!==undefined)ciRenderActs();
+  $("ciNote").value=rec?(rec.note||""):$("ciNote").value; $("ciNote").disabled=!!rec;
+  $("ciActs").querySelectorAll("input").forEach(i=>i.disabled=!!rec);
+  const go=$("ciGo"); go.disabled=!!rec; go.textContent=rec?"✓ 今天已打卡":"✅ 今日打卡"; $("ciUndo").hidden=!rec;
+  const sp=$("ciStamp"); sp.hidden=!rec; if(rec){ sp.innerHTML=ciStampHTML(rec,st); sp.classList.toggle("pop",!!pop); }
+  $("ciStreak").textContent=st; $("ciBest").textContent=Math.max(ciBest(),st); $("ciTotal").textContent=Object.keys(CI.days).length;
+  const ym=now.getFullYear()+"-"+ciP(now.getMonth()+1); $("ciMonth").textContent=Object.keys(CI.days).filter(k=>k.startsWith(ym)).length;
+  const nx=CI_MILE.find(m=>m[0]>st);
+  if(nx){ const prev=[...CI_MILE].reverse().find(m=>m[0]<=st), base=prev?prev[0]:0, pct=Math.round((st-base)/(nx[0]-base)*100);
+    $("ciNext").innerHTML=(rec||st===0?"":"今天還沒打卡，蓋章就能延續連勝！<br>")+"再 "+(nx[0]-st)+" 天拿到「"+nx[1]+"」<div class=\"bar\"><i style=\"width:"+pct+"%\"></i></div>"; }
+  else $("ciNext").textContent="所有章都蒐集完了，你是練功房的模範生！";
+  const best=Math.max(ciBest(),st);
+  $("ciBadges").innerHTML=CI_MILE.map(m=>'<span class="'+(best>=m[0]?"got":"")+'" title="連續 '+m[0]+' 天">'+(best>=m[0]?"🏅 ":"")+m[1]+'</span>').join("");
+  const b=$("ciBadge"); if(st>0){ b.hidden=false; b.textContent=(rec?"🔥":"⏳")+st; } else b.hidden=true;
+  ciCal();
+}
+function ciCal(){
+  const y=ciView.getFullYear(), m=ciView.getMonth(), first=new Date(y,m,1).getDay(), n=new Date(y,m+1,0).getDate(), t=ciToday();
+  $("ciCalTitle").textContent=y+" 年 "+(m+1)+" 月";
+  let h=CI_WD.map(w=>'<span class="wd">'+w+'</span>').join("");
+  for(let i=0;i<first;i++)h+='<span class="d out"></span>';
+  for(let d=1;d<=n;d++){ const k=y+"-"+ciP(m+1)+"-"+ciP(d), done=!!CI.days[k], cls=["d"]; if(done)cls.push("done"); if(k===t)cls.push("today"); if(k>t)cls.push("future"); if(d===n)cls.push("due");
+    h+=done?'<button class="'+cls.join(" ")+'" data-ci="'+k+'" aria-label="'+(m+1)+'月'+d+'日已打卡">'+d+'</button>':'<span class="'+cls.join(" ")+'"'+(d===n?' title="月底認證截止日"':'')+'>'+d+'</span>'; }
+  $("ciCal").innerHTML=h;
+  const cur=new Date(); $("ciNextM").disabled=(y>cur.getFullYear()||(y===cur.getFullYear()&&m>=cur.getMonth()));
+}
+$("ciCal").addEventListener("click",e=>{ const b=e.target.closest("[data-ci]"); if(!b)return; const r=CI.days[b.dataset.ci]; if(!r)return;
+  const [y,m,d]=b.dataset.ci.split("-").map(Number); const names=(r.acts||[]).map(a=>(CI_ACTS.find(x=>x[0]===a)||[0,a])[1]);
+  $("ciDayInfo").textContent=m+"/"+d+" "+r.t+" 打卡"+(r.lv?"・"+(LEVELS.find(l=>l.key===r.lv)||{name:""}).name:"")+(names.length?"・練了："+names.join("、"):"")+(r.note?"・「"+r.note+"」":""); });
+$("ciPrev").onclick=()=>{ ciView=new Date(ciView.getFullYear(),ciView.getMonth()-1,1); ciCal(); };
+$("ciNextM").onclick=()=>{ ciView=new Date(ciView.getFullYear(),ciView.getMonth()+1,1); ciCal(); };
+$("ciThis").onclick=()=>{ const d=new Date(); ciView=new Date(d.getFullYear(),d.getMonth(),1); ciCal(); };
+function ciCheckIn(){
+  const t=ciToday(); if(CI.days[t])return;
+  const d=new Date(), acts=[...$("ciActs").querySelectorAll("input:checked")].map(i=>i.value);
+  CI.days[t]={t:ciP(d.getHours())+":"+ciP(d.getMinutes()),lv:LV.key,acts,note:$("ciNote").value.trim().slice(0,40)};
+  CI.seen={}; CI.seen[t]=acts; ciSave(); ciRender(true);
+}
+$("ciGo").addEventListener("click",ciCheckIn);
+$("ciUndo").addEventListener("click",()=>{ const b=$("ciUndo"); if(!b.classList.contains("sure")){ b.classList.add("sure"); b.textContent="確定取消？再按一次"; setTimeout(()=>{b.classList.remove("sure"); b.textContent="取消今天的打卡";},2500); return; }
+  const t=ciToday(), r=CI.days[t]; delete CI.days[t]; if(r){ CI.seen[t]=r.acts||[]; } ciSave(); b.classList.remove("sure"); b.textContent="取消今天的打卡"; ciRender(false); });
+/* remember which practice tabs were opened today, so they're pre-ticked */
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{
+  const k=b.dataset.target, t=ciToday();
+  if(k==="checkin"){ ciRender(); return; }
+  if(!CI_ACTS.some(a=>a[0]===k)||CI.days[t])return;
+  const s=CI.seen[t]||[]; if(!s.includes(k)){ CI.seen={}; CI.seen[t]=s.concat(k); ciSave(); ciRenderActs(); }
+}));
+ciRender();
 /* switch level */
 function setLevel(key){
   const lv=LEVELS.find(l=>l.key===key)||LEVELS[0];
