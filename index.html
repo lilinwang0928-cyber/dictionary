@@ -1663,7 +1663,7 @@ let mRec=null,mChunks=[];
 const NOMEDIA="這個檢視視窗不允許使用麥克風／鏡頭。下載這個 HTML，用 Chrome 直接開啟或放上自己的網站就能錄。";
 $("mRec").addEventListener("click",async()=>{
   try{
-    const s=await navigator.mediaDevices.getUserMedia({audio:true});
+    const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}});
     mChunks=[]; mRec=new MediaRecorder(s);
     mRec.ondataavailable=e=>{if(e.data.size)mChunks.push(e.data);};
     mRec.onstop=()=>{s.getTracks().forEach(t=>t.stop());const a=$("mPlay");a.src=URL.createObjectURL(new Blob(mChunks,{type:mRec.mimeType||"audio/webm"}));a.hidden=false;$("mStatus").textContent="聽聽看，和發音一樣嗎？";};
@@ -1945,7 +1945,7 @@ $("cOn").addEventListener("click",async()=>{
   if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;camV.srcObject=null;stopLoop();drawFrame();
     $("cOn").textContent="開啟鏡頭";$("cRec").disabled=true;return;}
   try{
-    stream=await navigator.mediaDevices.getUserMedia({video:camConstraints(),audio:true});
+    stream=await navigator.mediaDevices.getUserMedia({video:camConstraints(),audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}});
     camV.srcObject=stream; await camV.play(); startLoop(); if(PM==="cut")loadSeg();
     $("cOn").textContent="關閉鏡頭"; $("cRec").disabled=false;
     $("camMsg").textContent="確認臉和嘴型清楚、光線充足，再按「開始一鏡到底」。";
@@ -2045,7 +2045,7 @@ async function aBegin(){
   aQueue=[0].concat(aList());
   if(aQueue.length<2){$("aClock").textContent="這個範圍目前沒有題目。";return;}
   try{
-    aStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
+    aStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}});
   }catch(e){$("aClock").textContent=NOMEDIA;return;}
   try{
     aCtx=new (window.AudioContext||window.webkitAudioContext)();
@@ -2336,7 +2336,7 @@ async function fOpen(){
   try{ fWake=await navigator.wakeLock?.request("screen"); }catch(e){}
   $("fMsg").hidden=false; $("fMsg").textContent="正在開啟鏡頭…";
   try{
-    fStream=await navigator.mediaDevices.getUserMedia({video:camConstraints(),audio:{echoCancellation:true,noiseSuppression:true}});
+    fStream=await navigator.mediaDevices.getUserMedia({video:camConstraints(),audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}});
     $("fPrev").srcObject=fStream; await $("fPrev").play().catch(()=>{});
     SEG_W=innerWidth<700?720:960; personReady=false; fApplyLook();
     $("fMsg").textContent="臉和嘴型在畫面中央、光線充足，就可以開始。下方可選背景與美顏。"; $("fStart").disabled=false;
